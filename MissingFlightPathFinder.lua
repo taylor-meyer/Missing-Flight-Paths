@@ -37,7 +37,7 @@ end)
 
 
 
-f = CreateFrame("Frame", "box", UIParent)
+f = CreateFrame("Frame", "box", UIParent, BackdropTemplateMixin and "BackdropTemplate")
 f:SetPoint("RIGHT", -300, -25)
 f:SetSize(300, 1000)
 f:SetBackdrop({
