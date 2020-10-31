@@ -1,5 +1,6 @@
 MissingFPsTable = {}
 
+
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -7,17 +8,33 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
+	
+		for i=1,NumTaxiNodes() do
+
+		
+		local testX,testY = TaxiNodePosition(i)
+		testX = testX*100
+		testY = testY*100
+		-- print("Loc: " .. TaxiNodeName(i) .. " : " .. testX .. "  " .. testY)
+		PlacePoint(testX, testY)
+		
+		end
+		
+		--[=[
 		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 		for i=1,table.getn(taxiNodes) do
-			if taxiNodes[i].state == 2 then
+			if taxiNodes[i].state == 1 then
 				--print(i .. ": " .. taxiNodes[i].name .. "    Reachable: " .. taxiNodes[i].state)
 				local coordX, coordY = taxiNodes[i].position:GetXY()
 				local item = MissingFPListFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 				item:SetPoint("TOP", 0, -25-(i*10))
 				item:SetText(i .. ": " .. taxiNodes[i].name)
 				MissingFPsTable[i] = taxiNodes[i]
+				--PlacePoint(coordX, coordY)
 			end
 		end
+		]=]
+		
 		if(table.getn(MissingFPsTable) ~= 0) then
 			MissingFPListFrame:Show()
 		end
@@ -48,30 +65,32 @@ fTitle:SetText("Missing Flight Paths")
 
 f:Hide()
 
---[=[
+
 function PlacePoint(x, y)
-	local frameT = FlightMapFrame
+	-- print("Placing: " .. x .. "   " .. y)
+	local frameT = FlightMapFrame.ScrollContainer.Child
 	local pin = CreateFrame("Frame", "MYPIN", frameT)
-	pin:SetWidth(16)
-	pin:SetHeight(16)
+	pin:SetWidth(50)
+	pin:SetHeight(50)
 	pin:EnableMouse(true)
 	
+	
 	pin:SetScript("OnEnter", function(pin)
-		print("x: " .. x .. "     y: " .. y)
-	end) -- this routine you need to write
+		-- print("x: " .. x .. "     y: " .. y)
+	end)
 	
 	pin:SetScript("OnLeave", function()
-	end) -- this routine you need to write
+	end)
 	
 	pin.texture = pin:CreateTexture()
-	-- You need to set the texture of the pin you want to display.  Here is an example
+	
 	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
 	pin.texture:SetTexCoord(0.125, 0.250, 0.125, 0.250)
 	pin.texture:SetAllPoints()
-	-- Make it appear at different levels in the map as desired (other icons can cover it based on what you choose)
 	pin:SetFrameStrata("TOOLTIP")
 	pin:SetFrameLevel(frameT:GetFrameLevel() + 1)
-	pin:SetPoint("CENTER", frameT, "CENTER", x*10, -y*10)
+	pin:SetPoint("CENTER", frameT, "TOPLEFT", x / 100 * frameT:GetWidth(), -y / 100 * frameT:GetHeight())
 	pin:Show()
 end
-]=]
+
+print("MFP loaded.")
