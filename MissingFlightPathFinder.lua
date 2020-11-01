@@ -1,6 +1,7 @@
 local Marks = {}
 
 local InvalidNames = {
+	"Southwind Village, Silithus",
 	"Amber Ledge, Borean (to Coldarra)",
 	"Transitus Shield, Coldarra (NOT USED)"
 }
@@ -20,6 +21,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		--print("Size of C_TaxiMap :" .. table.getn(taxiNodes))
 		--print("Size of NumTaxiNodes :" .. NumTaxiNodes())
 	
+		
+	
 		for i=1,NumTaxiNodes() do
 			local x,y = TaxiNodePosition(i)
 			local Type = TaxiNodeGetType(i)
@@ -28,16 +31,20 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			
 			
 			if Type == "DISTANT" and ValidFP(name) == true then
-				--print("i: " .. i)
+				print("i: " .. i)
 				print("name: " .. name)
-				--print("type: " .. Type)
-				--print("x: " .. x*100 .. " y: " .. y*100)
-				--print()
+				print("type: " .. Type)
+				print("x: " .. x*100 .. " y: " .. y*100)
+				print()
 				PlacePoint(TaxiNodeName(i), x*100, y*100)
 			end
 		end
 		
-		--print("Marks size: " .. table.getn(Marks))
+		print("Marks size: " .. table.getn(Marks))
+		print()
+		
+		--PrintInfoByIndex(53)
+		--PrintInfoByIndex(55)
 		
 	end
 	if event == "TAXIMAP_CLOSED" then
@@ -69,8 +76,8 @@ f:Hide()
 function PlacePoint(name, x, y)
 	local f = FlightMapFrame.ScrollContainer.Child
 	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
-	pin:SetWidth(50)
-	pin:SetHeight(50)
+	pin:SetWidth(100)
+	pin:SetHeight(100)
 	
 	--[=[
 	pin:SetScript("OnEnter", function(pin)
@@ -108,4 +115,24 @@ function ClearAllMarks()
 	Marks = {}
 end
 
+function PrintInfoByIndex(i)
+
+	local x,y = TaxiNodePosition(i)
+	local Type = TaxiNodeGetType(i)
+	local name = TaxiNodeName(i)
+
+	print("i: " .. i)
+	print("name: " .. name)
+	print("type: " .. Type)
+	print("x: " .. x*100 .. " y: " .. y*100)
+	print()
+	
+end
+
+--uiMapID = C_Map.GetBestMapForUnit("player")
+--print(uiMapID)
 print("MFP loaded.")
+
+
+
+
