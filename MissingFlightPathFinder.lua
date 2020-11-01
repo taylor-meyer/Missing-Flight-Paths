@@ -10,34 +10,22 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 	
 		for i=1,NumTaxiNodes() do
-
-		
-		local testX,testY = TaxiNodePosition(i)
-		testX = testX*100
-		testY = testY*100
-		-- print("Loc: " .. TaxiNodeName(i) .. " : " .. testX .. "  " .. testY)
-		PlacePoint(testX, testY)
-		
-		end
-		
-		--[=[
-		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
-		for i=1,table.getn(taxiNodes) do
-			if taxiNodes[i].state == 1 then
-				--print(i .. ": " .. taxiNodes[i].name .. "    Reachable: " .. taxiNodes[i].state)
-				local coordX, coordY = taxiNodes[i].position:GetXY()
-				local item = MissingFPListFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-				item:SetPoint("TOP", 0, -25-(i*10))
-				item:SetText(i .. ": " .. taxiNodes[i].name)
-				MissingFPsTable[i] = taxiNodes[i]
-				--PlacePoint(coordX, coordY)
+			local x,y = TaxiNodePosition(i)
+			local Type = TaxiNodeGetType(i)
+			
+			--print("type: " .. Type)
+			--print("x: " .. x*100 .. " y: " .. y*100)
+			--print()
+			
+			if Type == "DISTANT" then
+				PlacePoint(x*100,y*100)
 			end
 		end
-		]=]
 		
-		if(table.getn(MissingFPsTable) ~= 0) then
-			MissingFPListFrame:Show()
-		end
+		
+		
+		
+		
 	end
 	if event == "TAXIMAP_CLOSED" then
 		MissingFPListFrame:Hide()
