@@ -81,7 +81,7 @@ function PlacePoint(name, x, y)
 	
 	pin.texture = pin:CreateTexture()
 	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
-	pin.texture:SetTexCoord(0.125, 0.250, 0.125, 0.250)
+	pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
 	pin.texture:SetAllPoints()
 	
 	pin:SetFrameStrata("TOOLTIP")
