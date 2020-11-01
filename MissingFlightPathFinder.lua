@@ -16,7 +16,7 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 	
-		ClearAllMarks()
+		
 		
 		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 		--print("Size of C_TaxiMap :" .. table.getn(taxiNodes))
@@ -48,37 +48,13 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		--PrintInfoByIndex(55)
 		
 	end
-	if event == "TAXIMAP_CLOSED" then
-		MissingFPListFrame:Hide()
-	end
 end)
-
-local f = CreateFrame("Frame", "MissingFPListFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-f:SetPoint("RIGHT", -300, 0)
-f:SetSize(300, 700)
-f:SetBackdrop({
-	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-	edgeFile = "Interface\\PVPFrame\\UI-Character-PVP-Highlight",
-	edgeSize = 16,
-	insets = { left = 8, right = 6, top = 8, bottom = 8 },
-})
-f:SetBackdropBorderColor(0, .44, .87, 0.5)
-f:SetMovable(false)
-
-
-
-local fTitle = MissingFPListFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-fTitle:SetPoint("TOP", 0, -25)
-fTitle:SetText("Missing Flight Paths")
-
-f:Hide()
-
 
 function PlacePoint(name, x, y)
 	local f = FlightMapFrame.ScrollContainer.Child
 	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
-	pin:SetWidth(100)
-	pin:SetHeight(100)
+	pin:SetWidth(50)
+	pin:SetHeight(50)
 	
 	--[=[
 	pin:SetScript("OnEnter", function(pin)
@@ -109,7 +85,7 @@ function ValidFP(name)
 		if name == "Schnottz's Landing, Uldum" and uiMapID == 1527 then
 			return false
 	
-		elseif name == InvalidNames[i] thens
+		elseif name == InvalidNames[i] then
 			return false
 		end
 	end
@@ -137,8 +113,8 @@ function PrintInfoByIndex(i)
 	
 end
 
--- uiMapID = C_Map.GetBestMapForUnit("player")
--- print(uiMapID)
+uiMapID = C_Map.GetBestMapForUnit("player")
+print(uiMapID)
 print("MFP loaded.")
 
 
