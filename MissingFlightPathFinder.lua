@@ -2,6 +2,7 @@ local Marks = {}
 
 local InvalidNames = {
 	"Southwind Village, Silithus",
+	"Schnottz's Landing, Uldum",
 	"Amber Ledge, Borean (to Coldarra)",
 	"Transitus Shield, Coldarra (NOT USED)"
 }
@@ -100,8 +101,15 @@ function PlacePoint(name, x, y)
 end
 
 function ValidFP(name)
+
+	local uiMapID = C_Map.GetBestMapForUnit("player")
+
 	for i=1,table.getn(InvalidNames) do
-		if name == InvalidNames[i] then
+	
+		if name == "Schnottz's Landing, Uldum" and uiMapID == 1527 then
+			return false
+	
+		elseif name == InvalidNames[i] thens
 			return false
 		end
 	end
@@ -129,8 +137,8 @@ function PrintInfoByIndex(i)
 	
 end
 
---uiMapID = C_Map.GetBestMapForUnit("player")
---print(uiMapID)
+-- uiMapID = C_Map.GetBestMapForUnit("player")
+-- print(uiMapID)
 print("MFP loaded.")
 
 
