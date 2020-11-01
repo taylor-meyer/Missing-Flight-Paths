@@ -1,5 +1,9 @@
-Marks = {}
+local Marks = {}
 
+local InvalidNames = {
+	"Amber Ledge, Borean (to Coldarra)",
+	"Transitus Shield, Coldarra (NOT USED)"
+}
 
 
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -11,7 +15,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 	
 		ClearAllMarks()
-	
+		
 		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 		--print("Size of C_TaxiMap :" .. table.getn(taxiNodes))
 		--print("Size of NumTaxiNodes :" .. NumTaxiNodes())
@@ -23,18 +27,17 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			
 			
 			
-			if Type == "DISTANT" then
+			if Type == "DISTANT" and ValidFP(name) == true then
+				--print("i: " .. i)
 				print("name: " .. name)
-				print("type: " .. Type)
-				print("x: " .. x*100 .. " y: " .. y*100)
-				print()
-				PlacePoint(x*100,y*100)
+				--print("type: " .. Type)
+				--print("x: " .. x*100 .. " y: " .. y*100)
+				--print()
+				PlacePoint(TaxiNodeName(i), x*100, y*100)
 			end
 		end
 		
-		
-		
-		print("Marks size: " .. table.getn(Marks))
+		--print("Marks size: " .. table.getn(Marks))
 		
 	end
 	if event == "TAXIMAP_CLOSED" then
@@ -52,7 +55,6 @@ f:SetBackdrop({
 	insets = { left = 8, right = 6, top = 8, bottom = 8 },
 })
 f:SetBackdropBorderColor(0, .44, .87, 0.5)
--- Movable
 f:SetMovable(false)
 
 
@@ -64,36 +66,45 @@ fTitle:SetText("Missing Flight Paths")
 f:Hide()
 
 
-function PlacePoint(x, y)
-	-- print("Placing: " .. x .. "   " .. y)
-	local frameT = FlightMapFrame.ScrollContainer.Child
-	local pin = CreateFrame("Frame", "MYPIN", frameT)
+function PlacePoint(name, x, y)
+	local f = FlightMapFrame.ScrollContainer.Child
+	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
 	pin:SetWidth(50)
 	pin:SetHeight(50)
-	pin:EnableMouse(true)
 	
-	
+	--[=[
 	pin:SetScript("OnEnter", function(pin)
-		-- print("x: " .. x .. "     y: " .. y)
 	end)
-	
 	pin:SetScript("OnLeave", function()
 	end)
+	]=]
 	
 	pin.texture = pin:CreateTexture()
-	
 	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
 	pin.texture:SetTexCoord(0.125, 0.250, 0.125, 0.250)
 	pin.texture:SetAllPoints()
+	
 	pin:SetFrameStrata("TOOLTIP")
-	pin:SetFrameLevel(frameT:GetFrameLevel() + 1)
-	pin:SetPoint("CENTER", frameT, "TOPLEFT", x / 100 * frameT:GetWidth(), -y / 100 * frameT:GetHeight())
+	pin:SetFrameLevel(f:GetFrameLevel() + 1)
+	pin:SetPoint("CENTER", f, "TOPLEFT", x / 100 * f:GetWidth(), -y / 100 * f:GetHeight())
 	
 	Marks[table.getn(Marks) + 1] = pin
 	pin:Show()
 end
 
+function ValidFP(name)
+	for i=1,table.getn(InvalidNames) do
+		if name == InvalidNames[i] then
+			return false
+		end
+	end
+	return true
+end
+
 function ClearAllMarks()
+	for i=1,table.getn(Marks) do
+		Marks[i]:Hide()
+	end
 	Marks = {}
 end
 
