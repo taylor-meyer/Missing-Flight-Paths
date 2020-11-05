@@ -19,6 +19,12 @@ local DraenorMapIDs = {
 	1159  -- Alliance Garrison lv3
 }
 
+local PandariaMapIDs = {
+	870, -- Pandaria
+	1064 -- Isle of Thunder
+}
+
+
 
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 
@@ -29,7 +35,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
 		
-		if PlayerInDraenor() == true then
+		if PlayerInDraenor() == true or PlayerInPandaria() == true then
 			PlaceDraenorPoints()
 		else -- PlayerInDraenor() == false
 			taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
@@ -40,7 +46,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 				local Type = TaxiNodeGetType(i)
 				local name = TaxiNodeName(i)
 			if Type == "DISTANT" and ValidFP(name) == true then
-				--PrintNodeInfo(i, name, Type, x, y)
+				PrintNodeInfo(i, name, Type, x, y)
 				PlacePoint(TaxiNodeName(i), x*100, y*100)
 			end
 		end
@@ -169,6 +175,15 @@ function PlayerInDraenor()
 	return false
 end
 
+function PlayerInPandaria()
+	local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
+	for i=1,table.getn(DraenorMapIDs) do
+		if PandariaMapIDs[i] == instanceID then
+			return true
+		end
+	end
+	return false
+end
 
 print("MFP loaded.")
 
