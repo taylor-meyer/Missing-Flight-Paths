@@ -3,6 +3,7 @@ local Marks = {}
 local InvalidNames = {
 	"Southwind Village, Silithus",
 	"Schnottz's Landing, Uldum",
+	"Quest - Hellfire Peninsula (Alliance) End",
 	"Amber Ledge, Borean (to Coldarra)",
 	"Transitus Shield, Coldarra (NOT USED)"
 }
@@ -46,7 +47,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 				local Type = TaxiNodeGetType(i)
 				local name = TaxiNodeName(i)
 			if Type == "DISTANT" and ValidFP(name) == true then
-				PrintNodeInfo(i, name, Type, x, y)
+				--PrintNodeInfo(i, name, Type, x, y)
 				PlacePoint(TaxiNodeName(i), x*100, y*100)
 			end
 		end
