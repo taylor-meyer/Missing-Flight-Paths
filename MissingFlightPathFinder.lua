@@ -15,6 +15,7 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
+		ClearAllMarks()
 	
 		
 		
@@ -32,17 +33,17 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			
 			
 			if Type == "DISTANT" and ValidFP(name) == true then
-				print("i: " .. i)
-				print("name: " .. name)
-				print("type: " .. Type)
-				print("x: " .. x*100 .. " y: " .. y*100)
-				print()
+				--print("i: " .. i)
+				--print("name: " .. name)
+				--print("type: " .. Type)
+				--print("x: " .. x*100 .. " y: " .. y*100)
+				--print()
 				PlacePoint(TaxiNodeName(i), x*100, y*100)
 			end
 		end
 		
-		print("Marks size: " .. table.getn(Marks))
-		print()
+		--print("Marks size: " .. table.getn(Marks))
+		--print()
 		
 		--PrintInfoByIndex(53)
 		--PrintInfoByIndex(55)
@@ -113,8 +114,8 @@ function PrintInfoByIndex(i)
 	
 end
 
-uiMapID = C_Map.GetBestMapForUnit("player")
-print(uiMapID)
+--uiMapID = C_Map.GetBestMapForUnit("player")
+--print(uiMapID)
 print("MFP loaded.")
 
 
