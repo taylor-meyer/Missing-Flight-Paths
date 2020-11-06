@@ -5,7 +5,12 @@ local InvalidNames = {
 	"Schnottz's Landing, Uldum",
 	"Quest - Hellfire Peninsula (Alliance) End",
 	"Amber Ledge, Borean (to Coldarra)",
-	"Transitus Shield, Coldarra (NOT USED)"
+	"Transitus Shield, Coldarra (NOT USED)",
+	
+	-- These are temporary until I learn what is broken about them
+	"Atal'Gral, Zuldazar",
+	"Dreadpearl, Zuldazar",
+	"Devoted Sanctuary, Vol'dun"
 }
 
 local DraenorMapIDs = {
@@ -26,7 +31,6 @@ local PandariaMapIDs = {
 }
 
 
-
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -35,6 +39,22 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
+		
+		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+		for i=1,table.getn(taxiNodes) do
+			if taxiNodes[i].state == 2 then
+				--print("nodeID: " .. taxiNodes[i].nodeID .. "    name: " .. taxiNodes[i].name .. "    type: " .. taxiNodes[i].state)
+			end
+		end
+		
+		
+		
+		print()
+		
+		
+		
+		
+		
 		
 		if PlayerInDraenor() == true or PlayerInPandaria() == true then
 			PlaceDraenorPoints()
@@ -46,6 +66,22 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 				local x,y = TaxiNodePosition(i)
 				local Type = TaxiNodeGetType(i)
 				local name = TaxiNodeName(i)
+				
+				
+				
+				
+				--PrintNodeInfo(i, name, Type, x, y)
+
+				--[=[
+				if name == "Devoted Sanctuary, Vol'dun" then
+					PrintNodeInfo(i, name, Type, x, y)
+				end
+				]=]
+				
+			if Type == "REACHABLE" and ValidFP(name) == true then
+				--PrintNodeInfo(i, name, Type, x, y)
+			end
+				
 			if Type == "DISTANT" and ValidFP(name) == true then
 				--PrintNodeInfo(i, name, Type, x, y)
 				PlacePoint(TaxiNodeName(i), x*100, y*100)
@@ -129,11 +165,8 @@ function PrintInfoByIndex(i)
 end
 
 function PrintNodeInfo(i, name, Type, x, y)
-	print("i: " .. i)
-	print("name: " .. name)
-	print("type: " .. Type)
+	print("i: " .. i .. " name: " .. name .. " type: " .. Type)
 	print("x: " .. x*100 .. " y: " .. y*100)
-	print()
 end
 
 function PlaceDraenorPoints()
