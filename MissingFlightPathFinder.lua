@@ -68,12 +68,15 @@ function PlacePoint(name, x, y)
 	pin:SetWidth(50)
 	pin:SetHeight(50)
 	
-	--[=[
-	pin:SetScript("OnEnter", function(pin)
+	pin:HookScript("OnEnter", function()
+			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+			GameTooltip:AddLine(name, 0, 1, 0)
+			GameTooltip:Show()
 	end)
-	pin:SetScript("OnLeave", function()
+	
+	pin:HookScript("OnLeave", function()
+		GameTooltip:Hide()
 	end)
-	]=]
 	
 	pin.texture = pin:CreateTexture()
 	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
@@ -161,6 +164,20 @@ function PlaceDraenorPoint(name, x, y)
 	pin:SetFrameStrata("TOOLTIP")
 	pin:SetFrameLevel(f:GetFrameLevel() + 1)
 	pin:SetPoint("CENTER", f, "TOPLEFT", x / 100 * f:GetWidth(), -y / 100 * f:GetHeight())
+	
+	
+	
+	pin:HookScript("OnEnter", function()
+			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+			GameTooltip:AddLine(name, 0, 1, 0)
+			GameTooltip:Show()
+	end)
+	
+	pin:HookScript("OnLeave", function()
+		GameTooltip:Hide()
+	end)
+	
+	
 	
 	Marks[table.getn(Marks) + 1] = pin
 	pin:Show()
