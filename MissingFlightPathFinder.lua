@@ -3,6 +3,8 @@
 --------------------
 -- Author: Lypidius <Axiom> @ US-MoonGuard
 ------------------------------------------------------------------------------------------
+local addon, ns = ... -- Addon name & common namespace
+
 
 local Marks = {}
 
@@ -58,6 +60,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
 		
+		PrintAllNodesDistant()
+		
 		-- Vashj'ir
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		if instanceID == 0 then -- Eastern Kingdoms
@@ -95,7 +99,7 @@ function PlacePoint(name, x, y, isDraenor)
 	
 	pin:HookScript("OnEnter", function()
 			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-			GameTooltip:AddLine(name, 0, 1, 0)
+			GameTooltip:AddLine(name .. " " .. x .. " " .. y, 0, 1, 0)
 			GameTooltip:Show()
 	end)
 	
@@ -110,7 +114,7 @@ function PlacePoint(name, x, y, isDraenor)
 	
 	pin:SetFrameStrata("TOOLTIP")
 	pin:SetFrameLevel(f:GetFrameLevel() + 1)
-	pin:SetPoint("CENTER", f, "TOPLEFT", x / 100 * f:GetWidth(), -y / 100 * f:GetHeight())
+	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
 	
 	Marks[table.getn(Marks) + 1] = pin
 	pin:Show()
@@ -138,7 +142,7 @@ function PlaceNodes(isTaxiFrame)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
 		if Type == "DISTANT" and ValidFP(name) == true then
-			PlacePoint(TaxiNodeName(i), x*100, y*100, isTaxiFrame)
+			PlacePoint(TaxiNodeName(i), x, y, isTaxiFrame)
 		end
 	end
 end
@@ -171,7 +175,7 @@ function PlaceVashjirUnderwaterNodes()
 				local Type = TaxiNodeGetType(UnderwaterNodesDK[i])
 				local name = TaxiNodeName(UnderwaterNodesDK[i])
 				if Type == "DISTANT" then
-					PlacePoint(name, x*100, y*100)
+					PlacePoint(name, x, y)
 				end
 			end
 		else
@@ -180,7 +184,7 @@ function PlaceVashjirUnderwaterNodes()
 				local Type = TaxiNodeGetType(UnderwaterNodesNonDK[i])
 				local name = TaxiNodeName(UnderwaterNodesNonDK[i])
 				if Type == "DISTANT" then
-					PlacePoint(name, x*100, y*100)
+					PlacePoint(name, x, y)
 				end
 			end
 		end
@@ -193,7 +197,7 @@ function PlaceEasternKingdomsNodes()
 			local Type = TaxiNodeGetType(i)
 			local name = TaxiNodeName(i)
 			if Type == "DISTANT" then
-				PlacePoint(name, x*100, y*100)
+				PlacePoint(name, x, y)
 			end
 		end
 	end
@@ -227,7 +231,7 @@ function PrintAllNodesDistant()
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
 		if Type == "DISTANT" then
-			print("i: " .. i .. " name: " .. name .. " type: " .. Type)
+			print("i: " .. i .. " name: " .. name .. " type: " .. Type .. " x: " .. x .. " y: " .. y)
 		end
 	end
 end
