@@ -6,6 +6,8 @@
 local addon, ns = ... -- Addon name & common namespace
 
 
+
+
 local Marks = {}
 
 local InvalidNames = {
@@ -60,7 +62,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
 		
-		PrintAllNodesDistant()
+		--PrintAllNodesDistant()
 		
 		-- Vashj'ir
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
@@ -120,10 +122,14 @@ function PlacePoint(name, x, y, isDraenor)
 	pin:Show()
 end
 
-function ValidFP(name)
-	for i=1,table.getn(InvalidNames) do
-		if name == InvalidNames[i] then
-			return false
+function ValidFP(name, x, y)
+	for i=1,table.getn(ns) do
+		local tabl = ns[i]
+		for j=1,table.getn(tabl) do
+			if (tabl[j].name == name and tabl[j].x == tostring(x) and tabl[j].y == tostring(y))
+			then
+				return false
+			end
 		end
 	end
 	return true
@@ -137,13 +143,25 @@ function ClearAllMarks()
 end
 
 function PlaceNodes(isTaxiFrame)
+
+	
+	
+
+
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		if Type == "DISTANT" and ValidFP(name) == true then
+		
+		
+		
+		
+		if Type == "DISTANT" and ValidFP(name, x, y) == true then
 			PlacePoint(TaxiNodeName(i), x, y, isTaxiFrame)
 		end
+		
+		
+		
 	end
 end
 
