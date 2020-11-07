@@ -3,4 +3,5 @@
 ## Author: Lypidius
 ## Version: 0.8
 
+IgnoredNodes.lua
 MissingFlightPathFinder.lua
