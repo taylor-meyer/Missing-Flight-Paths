@@ -61,12 +61,13 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
-		
-		--PrintAllNodesDistant()
-		
-		-- Vashj'ir
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
-		if instanceID == 0 then -- Eastern Kingdoms
+
+		
+		if instanceID == 1643 then
+			PlaceKulTirasNodes()
+		
+		elseif instanceID == 0 then -- Eastern Kingdoms
 			-- Ignoring Vashj'ir
 			if AtUnderwaterNode() == false then
 				PlaceEasternKingdomsNodes()
@@ -78,6 +79,20 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 end)
+
+function PlaceKulTirasNodes()
+	local targetname = GetUnitName("target")
+	local ferrynames = ns[2]
+	
+	for i=1,table.getn(ferrynames) do
+		if ferrynames[i] == targetname then
+			return
+		end
+	end
+	
+	PlaceNodes(false)
+
+end
 
 function PlacePoint(name, x, y, isDraenor)
 
