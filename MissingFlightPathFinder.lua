@@ -37,17 +37,18 @@ local TaxiFrameIDs = {
 	1159  -- Alliance Garrison lv3
 }
 
--- For Vashj'ir
-local SeahorseIDs = {
-	"Creature-0-3777-0-242-43293-0000256D1B", -- Stygian Bounty
-	"Creature-0-3777-0-242-43216-0000256D1B", -- Sandy Beach
-	"Creature-0-3777-0-242-40851-0000256D1B", -- Silver Tide Hollow
-	"Creature-0-3777-0-242-40852-0000256D1B", -- Smuggler's Scar
-	"Creature-0-3777-0-242-40871-0000256D1B", -- Legion's Rest
-	"Creature-0-3777-0-242-40873-0000256D1B" -- Tenebrous Cavern
+-- For Vashj'ir ignoring
+local VashjirNames = {
+"Smuggler's Scar, Vashj'ir",
+"Silver Tide Hollow, Vashj'ir",
+"Legion's Rest, Vashj'ir",
+"Tenebrous Cavern, Vashj'ir",
+"Sandy Beach, Vashj'ir",
+"Stygian Bounty, Vashj'ir",
+"Darkbreak Cove, Vashj'ir",
+"Tranquil Wash, Vashj'ir",
+"Voldrin's Hold, Vashj'ir"
 }
-local UnderwaterNodesNonDK = {22,23,24,25,30,32}
-local UnderwaterNodesDK = {23,24,25,26,31,33}
 
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -60,9 +61,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		-- Vashj'ir
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		if instanceID == 0 then -- Eastern Kingdoms
-			if AtUnderwaterNode() == true then -- Show underwater nodes but not rest of continent
-				PlaceVashjirUnderwaterNodes()
-			else -- Show EK nodes but not the underwater ones
+			-- Ignoring Vashj'ir
+			if AtUnderwaterNode() == false then
 				PlaceEasternKingdomsNodes()
 			end
 		elseif DraenorOrPandaria() == true then
@@ -154,13 +154,12 @@ function DraenorOrPandaria()
 end
 
 function AtUnderwaterNode()
-	local guid = UnitGUID("target")
-	for i=1,table.getn(SeahorseIDs) do
-		if SeahorseIDs[i] == guid then
-			return true
-		end
+	local name,_ = UnitName("target")
+	if name == "Swift Seahorse" then
+		return true
+	else
+		return false
 	end
-	return false
 end
 
 function PlaceVashjirUnderwaterNodes()
@@ -189,7 +188,7 @@ end
 
 function PlaceEasternKingdomsNodes()
 	for i=1,NumTaxiNodes() do
-		if IsUnderwaterIndex(i) == false then
+		if IsUnderwaterName(TaxiNodeName(i)) == false then
 			local x,y = TaxiNodePosition(i)
 			local Type = TaxiNodeGetType(i)
 			local name = TaxiNodeName(i)
@@ -200,20 +199,10 @@ function PlaceEasternKingdomsNodes()
 	end
 end
 
-function IsUnderwaterIndex(index)
-	local _, classFilename, _ = UnitClass("player")
-	-- Death Knight flight table is different, so we use the other table for underwater nodes
-	if classFilename == "DEATHKNIGHT" then
-		for i=1,table.getn(UnderwaterNodesDK) do
-			if UnderwaterNodesDK[i] == index then
-				return true
-			end
-		end
-	else
-		for i=1,table.getn(UnderwaterNodesNonDK) do
-			if UnderwaterNodesNonDK[i] == index then
-				return true
-			end
+function IsUnderwaterName(name)
+	for i=1,table.getn(VashjirNames) do
+		if VashjirNames[i] == name then
+			return true
 		end
 	end
 	return false
@@ -231,7 +220,7 @@ function PrintAllNodes()
 	end
 end
 
-function PrintAllNodesAltDistant()
+function PrintAllNodesDistant()
 	print("TaxiMapID: " .. GetTaxiMapID())
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
@@ -243,7 +232,7 @@ function PrintAllNodesAltDistant()
 	end
 end
 
-function PrintAllNodesAltReachable()
+function PrintAllNodesReachable()
 	print("TaxiMapID: " .. GetTaxiMapID())
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
