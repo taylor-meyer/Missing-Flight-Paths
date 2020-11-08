@@ -5,7 +5,7 @@
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
-KulTirasFerryNodes = {
+local KulTirasFerryNodes = {
 	{
 		name = "Anglepoint Wharf, Tiragarde Sound",
 		x = "0.43265134096146",
@@ -53,7 +53,7 @@ KulTirasFerryNodes = {
 	}
 }
 
-TiragardeSoundNPCs = {
+local TiragardeSoundNPCs = {
 	"Rosha Carrol",
 	"Will Melborne",
 	"Denzel Crocker",
@@ -64,5 +64,59 @@ TiragardeSoundNPCs = {
 	"Bindy Bracklesprig"
 }
 
+local UnderwaterVashjirNodes = {
+	{
+		name = "Smuggler's Scar, Vashj'ir",
+		x = "0.36059021949768",
+		y = "0.58064758777618"
+	},
+	{
+		name = "Silver Tide Hollow, Vashj'ir",
+		x = "0.34085690975189",
+		y = "0.63654386997223"
+	},
+	{
+		name = "Legion's Rest, Vashj'ir",
+		x = "0.34294891357422",
+		y = "0.66232764720917"
+	},
+	{
+		name = "Tenebrous Cavern, Vashj'ir",
+		x = "0.29691690206528",
+		y = "0.65136468410492"
+	},
+	{
+		name = "Sandy Beach, Vashj'ir",
+		x = "0.35492795705795",
+		y = "0.62046921253204"
+	},
+	{
+		name = "Sandy Beach, Vashj'ir",
+		x = "0.35030215978622",
+		y = "0.60566824674606"
+	},
+	{
+		name = "Stygian Bounty, Vashj'ir",
+		x = "0.34102922677994",
+		y = "0.66507315635681"
+	},
+	{
+		name = "Tranquil Wash, Vashj'ir",
+		x = "0.34028750658035",
+		y = "0.65535771846771"
+	},
+	{
+		name = "Darkbreak Cove, Vashj'ir",
+		x = "0.30014282464981",
+		y = "0.66588640213013"
+	},
+	{
+		name = "Voldrin's Hold, Vashj'ir",
+		x = "0.34967428445816",
+		y = "0.67721104621887"
+	}
+}
+
 ns[1] = KulTirasFerryNodes
 ns[2] = TiragardeSoundNPCs
+ns[3] = UnderwaterVashjirNodes

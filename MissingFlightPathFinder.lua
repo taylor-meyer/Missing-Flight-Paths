@@ -41,19 +41,6 @@ local TaxiFrameIDs = {
 	1159  -- Alliance Garrison lv3
 }
 
--- For Vashj'ir ignoring
-local VashjirNames = {
-"Smuggler's Scar, Vashj'ir",
-"Silver Tide Hollow, Vashj'ir",
-"Legion's Rest, Vashj'ir",
-"Tenebrous Cavern, Vashj'ir",
-"Sandy Beach, Vashj'ir",
-"Stygian Bounty, Vashj'ir",
-"Darkbreak Cove, Vashj'ir",
-"Tranquil Wash, Vashj'ir",
-"Voldrin's Hold, Vashj'ir"
-}
-
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -62,16 +49,19 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
-
 		
-		if instanceID == 1643 then
+		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
 		
 		elseif instanceID == 0 then -- Eastern Kingdoms
-			-- Ignoring Vashj'ir
-			if AtUnderwaterNode() == false then
+		
+			if AtUnderwaterNode() == true then
+				PlaceUnderwaterVashjirNodes()
+			else
 				PlaceEasternKingdomsNodes()
 			end
+			
+			
 		elseif DraenorOrPandaria() == true then
 			PlaceNodes(true)
 		else
@@ -93,6 +83,35 @@ function PlaceKulTirasNodes()
 	PlaceNodes(false)
 
 end
+
+function PlaceUnderwaterVashjirNodes()
+
+	local tabl = ns[3]
+	
+	
+	for i=1,NumTaxiNodes() do
+	
+	
+		local x,y = TaxiNodePosition(i)
+		local Type = TaxiNodeGetType(i)
+		local name = TaxiNodeName(i)
+		
+		
+		
+		for j=1,table.getn(tabl) do
+		
+			if (tabl[j].name == name and tabl[j].x == tostring(x) and tabl[j].y == tostring(y))
+			then
+				if Type == "DISTANT" then
+					PlacePoint(name, x, y, false)
+				end
+			end
+		end
+	end
+end
+
+
+
 
 function PlacePoint(name, x, y, isDraenor)
 
@@ -157,6 +176,9 @@ function ClearAllMarks()
 	Marks = {}
 end
 
+
+
+
 function PlaceNodes(isTaxiFrame)
 
 	
@@ -180,6 +202,8 @@ function PlaceNodes(isTaxiFrame)
 	end
 end
 
+
+
 function DraenorOrPandaria()
 	local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 	for i=1,table.getn(TaxiFrameIDs) do
@@ -191,44 +215,24 @@ function DraenorOrPandaria()
 end
 
 function AtUnderwaterNode()
-	local name,_ = UnitName("target")
-	if name == "Swift Seahorse" then
+	local targetname = GetUnitName("target")
+	if targetname == "Swift Seahorse" then
 		return true
-	else
-		return false
 	end
-end
-
-function PlaceVashjirUnderwaterNodes()
-		local _, classFilename, _ = UnitClass("player")
-		-- Death Knight flight table is different, so we use the other table for underwater nodes
-		if classFilename == "DEATHKNIGHT" then
-			for i=1,table.getn(UnderwaterNodesDK) do
-				local x,y = TaxiNodePosition(UnderwaterNodesDK[i])
-				local Type = TaxiNodeGetType(UnderwaterNodesDK[i])
-				local name = TaxiNodeName(UnderwaterNodesDK[i])
-				if Type == "DISTANT" then
-					PlacePoint(name, x, y)
-				end
-			end
-		else
-			for i=1,table.getn(UnderwaterNodesNonDK) do
-				local x,y = TaxiNodePosition(UnderwaterNodesNonDK[i])
-				local Type = TaxiNodeGetType(UnderwaterNodesNonDK[i])
-				local name = TaxiNodeName(UnderwaterNodesNonDK[i])
-				if Type == "DISTANT" then
-					PlacePoint(name, x, y)
-				end
-			end
-		end
+	return false
 end
 
 function PlaceEasternKingdomsNodes()
+	local tabl = ns[3]
+	
 	for i=1,NumTaxiNodes() do
-		if IsUnderwaterName(TaxiNodeName(i)) == false then
-			local x,y = TaxiNodePosition(i)
-			local Type = TaxiNodeGetType(i)
-			local name = TaxiNodeName(i)
+	
+		local x,y = TaxiNodePosition(i)
+		local Type = TaxiNodeGetType(i)
+		local name = TaxiNodeName(i)
+	
+		if IsUnderwaterNode(name, x, y) == false then
+			
 			if Type == "DISTANT" then
 				PlacePoint(name, x, y)
 			end
@@ -236,14 +240,25 @@ function PlaceEasternKingdomsNodes()
 	end
 end
 
-function IsUnderwaterName(name)
-	for i=1,table.getn(VashjirNames) do
-		if VashjirNames[i] == name then
+function IsUnderwaterNode(name, x, y)
+	local tabl = ns[3]
+	for i=1,table.getn(tabl) do
+		if (tabl[i].name == name and tabl[i].x == tostring(x) and tabl[i].y == tostring(y))
+		then
 			return true
 		end
 	end
 	return false
 end
+
+
+
+
+
+
+
+
+
 
 
 -- Printouts for testing
