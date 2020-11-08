@@ -117,6 +117,30 @@ local UnderwaterVashjirNodes = {
 	}
 }
 
+-- We ignore flight points that are gone in present time
+-- (Teldrassil, N'zoth Invasions, etc.)
+local InvalidNames = {
+	-- Have been destroyed or otherwise removed
+	"Grove of the Ancients, Darkshore",
+	"Lor'danel, Darkshore",
+	"Rut'theran Village, Teldrassil",
+	"Darnassus, Teldrassil",
+	"Dolanaar, Teldrassil",
+	"Schnottz's Landing, Uldum",
+	-- Unused by both factions
+	"Southwind Village, Silithus",
+	"Dreadpearl, Zuldazar",
+	-- For a quest, not in flight path network
+	"Quest - Hellfire Peninsula (Alliance) End",
+	-- One way from Borean Tundra to Coldarra, not in flight path network
+	"Amber Ledge, Borean (to Coldarra)",
+	"Transitus Shield, Coldarra (NOT USED)",
+	-- These seem broken by always showing as missing
+	"Atal'Gral, Zuldazar",
+	"Devoted Sanctuary, Vol'dun"
+}
+
 ns[1] = KulTirasFerryNodes
 ns[2] = TiragardeSoundNPCs
 ns[3] = UnderwaterVashjirNodes
+ns[4] = InvalidNames

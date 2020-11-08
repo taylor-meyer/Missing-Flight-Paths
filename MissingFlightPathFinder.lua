@@ -5,7 +5,10 @@
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
-
+local tabl = ns[4]
+for j=1,table.getn(tabl) do
+	print("j: " .. j .. " : " .. tabl[j])
+end
 
 
 local Marks = {}
@@ -48,13 +51,12 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
-		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
+		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
 		
 		elseif instanceID == 0 then -- Eastern Kingdoms
-		
 			if AtUnderwaterNode() == true then
 				PlaceUnderwaterVashjirNodes()
 			else
@@ -62,13 +64,148 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 			
 			
-		elseif DraenorOrPandaria() == true then
-			PlaceNodes(true)
+		elseif PlayerInPandaria(instanceID) == true then
+			PlacePandariaNodes()
 		else
-			PlaceNodes(false)
+			PlaceNonSpecialNodes()
 		end
 	end
 end)
+
+
+
+
+
+
+
+
+function PlaceNonSpecialNodes()
+
+	local tabl = ns[4]
+	
+
+
+	for i=1,NumTaxiNodes() do
+		local x,y = TaxiNodePosition(i)
+		local Type = TaxiNodeGetType(i)
+		local name = TaxiNodeName(i)
+		
+		
+		
+		local tabl = ns[4]
+		for j=1,table.getn(tabl) do
+			print("j: " .. j .. " : " .. tabl[j])
+			
+			if Type == "DISTANT" and IsIgnoredNode(name) == false then
+			
+				PlacePoint(name, x, y, false)
+			
+			end
+		end
+		
+		
+		
+		
+		
+		
+		
+		
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function IsIgnoredNode(name)
+
+	local tabl = ns[4]
+	
+	for i=1,table.getn(tabl) do
+		
+		if tabl[i] == name then
+		
+			return true
+		
+		end
+		
+	end
+	
+	return false
+end
+
+
+function PlacePoint(name, x, y, isDraenor)
+
+	local f = nil
+	local width = nil
+	local height = nil
+	if isDraenor == true then
+		f = TaxiRouteMap
+		width = 16
+		height = 16
+	else
+		f = FlightMapFrame.ScrollContainer.Child
+		width = 75
+		height = 75
+	end
+	
+	
+	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
+	pin:SetWidth(width)
+	pin:SetHeight(height)
+	
+	pin:HookScript("OnEnter", function()
+			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+			GameTooltip:AddLine(name, 0, 1, 0)
+			GameTooltip:Show()
+	end)
+	
+	pin:HookScript("OnLeave", function()
+		GameTooltip:Hide()
+	end)
+	
+	pin.texture = pin:CreateTexture()
+	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
+	pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
+	pin.texture:SetAllPoints()
+	
+	pin:SetFrameStrata("TOOLTIP")
+	pin:SetFrameLevel(f:GetFrameLevel() + 1)
+	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
+	
+	Marks[table.getn(Marks) + 1] = pin
+	pin:Show()
+end
+
+
+function ClearAllMarks()
+	for i=1,table.getn(Marks) do
+		Marks[i]:Hide()
+	end
+	Marks = {}
+end
+
+
+
+
 
 function PlaceKulTirasNodes()
 	local targetname = GetUnitName("target")
@@ -113,105 +250,33 @@ end
 
 
 
-function PlacePoint(name, x, y, isDraenor)
-
-	local f = nil
-	local width = nil
-	local height = nil
-	if isDraenor == true then
-		f = TaxiRouteMap
-		width = 16
-		height = 16
-	else
-		f = FlightMapFrame.ScrollContainer.Child
-		width = 75
-		height = 75
-	end
-	
-	
-	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
-	pin:SetWidth(width)
-	pin:SetHeight(height)
-	
-	pin:HookScript("OnEnter", function()
-			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-			GameTooltip:AddLine(name .. " " .. x .. " " .. y, 0, 1, 0)
-			GameTooltip:Show()
-	end)
-	
-	pin:HookScript("OnLeave", function()
-		GameTooltip:Hide()
-	end)
-	
-	pin.texture = pin:CreateTexture()
-	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
-	pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
-	pin.texture:SetAllPoints()
-	
-	pin:SetFrameStrata("TOOLTIP")
-	pin:SetFrameLevel(f:GetFrameLevel() + 1)
-	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
-	
-	Marks[table.getn(Marks) + 1] = pin
-	pin:Show()
-end
-
-function ValidFP(name, x, y)
-	for i=1,table.getn(ns) do
-		local tabl = ns[i]
-		for j=1,table.getn(tabl) do
-			if (tabl[j].name == name and tabl[j].x == tostring(x) and tabl[j].y == tostring(y))
-			then
-				return false
-			end
-		end
-	end
-	return true
-end
-
-function ClearAllMarks()
-	for i=1,table.getn(Marks) do
-		Marks[i]:Hide()
-	end
-	Marks = {}
-end
-
-
-
-
-function PlaceNodes(isTaxiFrame)
-
-	
-	
-
+function PlacePandariaNodes()
 
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		
-		
-		
-		
-		if Type == "DISTANT" and ValidFP(name, x, y) == true then
-			PlacePoint(TaxiNodeName(i), x, y, isTaxiFrame)
+
+
+		if Type == "DISTANT" then
+			PlacePoint(name, x, y, true)
 		end
-		
-		
-		
+
 	end
+
+
 end
 
 
+function PlayerInPandaria(instanceID)
 
-function DraenorOrPandaria()
-	local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 	for i=1,table.getn(TaxiFrameIDs) do
 		if TaxiFrameIDs[i] == instanceID then
 			return true
 		end
 	end
 	return false
+	
 end
 
 function AtUnderwaterNode()
