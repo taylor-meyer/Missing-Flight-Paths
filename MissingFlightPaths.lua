@@ -5,7 +5,7 @@
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
-
+-- Table of placed pins
 local Marks = {}
 
 -- These zones use a different frame
@@ -23,7 +23,6 @@ local TaxiFrameIDs = {
 	1331, -- Alliance Garrison lv2
 	1159  -- Alliance Garrison lv3
 }
-
 
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -43,8 +42,6 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			else
 				PlaceEasternKingdomsNodes()
 			end
-			
-			
 		elseif PlayerInPandaria(instanceID) == true then
 			PlacePandariaNodes()
 		else
@@ -53,32 +50,20 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	end
 end)
 
-
 function PlaceNonSpecialNodes()
-
 	local tabl = ns[4]
-	
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		
 		local tabl = ns[4]
 		for j=1,table.getn(tabl) do
-			print("j: " .. j .. " : " .. tabl[j])
-			
 			if Type == "DISTANT" and IsIgnoredNode(name) == false then
-			
 				PlacePoint(name, x, y, false)
-			
 			end
 		end
 	end
 end
-
-
-
-
 
 function IsIgnoredNode(name)
 
@@ -91,7 +76,6 @@ function IsIgnoredNode(name)
 	end
 	return false
 end
-
 
 function PlacePoint(name, x, y, isDraenor)
 
@@ -136,7 +120,6 @@ function PlacePoint(name, x, y, isDraenor)
 	pin:Show()
 end
 
-
 function ClearAllMarks()
 	for i=1,table.getn(Marks) do
 		Marks[i]:Hide()
@@ -144,40 +127,24 @@ function ClearAllMarks()
 	Marks = {}
 end
 
-
-
-
-
 function PlaceKulTirasNodes()
 	local targetname = GetUnitName("target")
 	local ferrynames = ns[2]
-	
 	for i=1,table.getn(ferrynames) do
 		if ferrynames[i] == targetname then
 			return
 		end
 	end
-	
 	PlaceNodes(false)
-
 end
 
 function PlaceUnderwaterVashjirNodes()
-
 	local tabl = ns[3]
-	
-	
 	for i=1,NumTaxiNodes() do
-	
-	
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		
-		
-		
 		for j=1,table.getn(tabl) do
-		
 			if (tabl[j].name == name and tabl[j].x == tostring(x) and tabl[j].y == tostring(y))
 			then
 				if Type == "DISTANT" then
@@ -188,36 +155,24 @@ function PlaceUnderwaterVashjirNodes()
 	end
 end
 
-
-
-
 function PlacePandariaNodes()
-
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-
-
 		if Type == "DISTANT" then
 			PlacePoint(name, x, y, true)
 		end
-
 	end
-
-
 end
 
-
 function PlayerInPandaria(instanceID)
-
 	for i=1,table.getn(TaxiFrameIDs) do
 		if TaxiFrameIDs[i] == instanceID then
 			return true
 		end
 	end
 	return false
-	
 end
 
 function AtUnderwaterNode()
@@ -230,15 +185,11 @@ end
 
 function PlaceEasternKingdomsNodes()
 	local tabl = ns[3]
-	
 	for i=1,NumTaxiNodes() do
-	
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-	
 		if IsUnderwaterNode(name, x, y) == false then
-			
 			if Type == "DISTANT" then
 				PlacePoint(name, x, y)
 			end
@@ -257,49 +208,4 @@ function IsUnderwaterNode(name, x, y)
 	return false
 end
 
-
-
-
-
-
-
-
-
-
-
--- Printouts for testing
-function PrintAllNodes()
-	print("TaxiMapID: " .. GetTaxiMapID())
-	for i=1,NumTaxiNodes() do
-		local x,y = TaxiNodePosition(i)
-		local Type = TaxiNodeGetType(i)
-		local name = TaxiNodeName(i)
-		print("i: " .. i .. " name: " .. name .. " type: " .. Type)
-	end
-end
-
-function PrintAllNodesDistant()
-	print("TaxiMapID: " .. GetTaxiMapID())
-	for i=1,NumTaxiNodes() do
-		local x,y = TaxiNodePosition(i)
-		local Type = TaxiNodeGetType(i)
-		local name = TaxiNodeName(i)
-		if Type == "DISTANT" then
-			print("i: " .. i .. " name: " .. name .. " type: " .. Type .. " x: " .. x .. " y: " .. y)
-		end
-	end
-end
-
-function PrintAllNodesReachable()
-	print("TaxiMapID: " .. GetTaxiMapID())
-	for i=1,NumTaxiNodes() do
-		local x,y = TaxiNodePosition(i)
-		local Type = TaxiNodeGetType(i)
-		local name = TaxiNodeName(i)
-		if Type == "REACHABLE" or Type == "CURRENT" then
-			print("i: " .. i .. " name: " .. name .. " type: " .. Type)
-		end
-	end
-end
-
-print("MFP loaded.")
+print("MFP loaded. Thanks for downloading!")

@@ -1,7 +1,8 @@
 ## Interface: 90001
-## Title: Missing Flight Path Finder
+## Title: Missing Flight Paths
 ## Author: Lypidius
-## Version: 0.8
+## Version: 0.9
+## DefaultState: enabled
 
 SpecialNodes.lua
 MissingFlightPaths.lua
