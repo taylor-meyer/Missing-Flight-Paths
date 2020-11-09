@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------
--- Ignored Nodes --
+-- Special Nodes --
 --------------------
--- Author: Lypidius <Axiom> @ US-MoonGuard
+-- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 

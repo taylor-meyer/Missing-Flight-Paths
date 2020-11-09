@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------
 -- Missing Flight Paths --
 --------------------
--- Author: Lypidius <Axiom> @ US-MoonGuard
+-- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
@@ -31,8 +31,14 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
-		
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
+		
+		if PlayerInPandaria(instanceID) == true then
+			CreateHeirloomFrame(TaxiFrame)
+		else
+			CreateHeirloomFrame(FlightMapFrame)
+		end
+		
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
 		
@@ -207,5 +213,31 @@ function IsUnderwaterNode(name, x, y)
 	end
 	return false
 end
+
+
+-- Frame for heirloom maps
+function CreateHeirloomFrame(ParentFrame)
+
+	local f = CreateFrame("Frame", "HeirloomReminderFrame", ParentFrame, BackdropTemplateMixin and "BackdropTemplate")
+	
+	-- Size & location
+	f:SetPoint("BOTTOM", 0, -40)
+	f:SetSize(285, 40)
+
+	-- Colors
+	f:SetBackdrop({
+		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+		edgeFile = "Interface\\PVPFrame\\UI-Character-PVP-Highlight",
+		edgeSize = 16,
+		insets = { left = 8, right = 6, top = 8, bottom = 8 },
+	})
+	f:SetBackdropBorderColor(0, 1, 0, 1)
+	
+	local text = f:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	text:SetPoint("CENTER", 0, 0)
+	text:SetText("Remember to use your heirloom maps!")
+
+end
+
 
 print("MFP loaded. Thanks for downloading!")
