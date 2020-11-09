@@ -5,31 +5,11 @@
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
-local tabl = ns[4]
-for j=1,table.getn(tabl) do
-	print("j: " .. j .. " : " .. tabl[j])
-end
-
 
 local Marks = {}
 
-local InvalidNames = {
-	-- Unused by both factions
-	"Southwind Village, Silithus",
-	-- For a quest, not in flight path network
-	"Quest - Hellfire Peninsula (Alliance) End",
-	-- One way from Borean Tundra to Coldarra, not in flight path network
-	"Amber Ledge, Borean (to Coldarra)",
-	"Transitus Shield, Coldarra (NOT USED)",
-	-- Unused by both factions
-	"Dreadpearl, Zuldazar",
-	-- These are temporarily ignored until I learn what is broken about them
-	"Atal'Gral, Zuldazar",
-	"Devoted Sanctuary, Vol'dun",
-	-- In present time Uldum, this node is unavailable. Temporarily ignored
-	"Schnottz's Landing, Uldum"
-}
-
+-- These zones use a different frame
+-- "TaxiFrame"
 local TaxiFrameIDs = {
 	870, -- Pandaria
 	1064, -- Isle of Thunder
@@ -43,6 +23,7 @@ local TaxiFrameIDs = {
 	1331, -- Alliance Garrison lv2
 	1159  -- Alliance Garrison lv3
 }
+
 
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -73,24 +54,14 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 
-
-
-
-
-
-
 function PlaceNonSpecialNodes()
 
 	local tabl = ns[4]
 	
-
-
 	for i=1,NumTaxiNodes() do
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		
-		
 		
 		local tabl = ns[4]
 		for j=1,table.getn(tabl) do
@@ -102,33 +73,8 @@ function PlaceNonSpecialNodes()
 			
 			end
 		end
-		
-		
-		
-		
-		
-		
-		
-		
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -139,15 +85,10 @@ function IsIgnoredNode(name)
 	local tabl = ns[4]
 	
 	for i=1,table.getn(tabl) do
-		
 		if tabl[i] == name then
-		
 			return true
-		
 		end
-		
 	end
-	
 	return false
 end
 
