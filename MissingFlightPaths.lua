@@ -33,11 +33,11 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
-		if PlayerInPandaria(instanceID) == true then
-			CreateHeirloomFrame(TaxiFrame)
-		else
-			CreateHeirloomFrame(FlightMapFrame)
-		end
+		--if PlayerInPandaria(instanceID) == true then
+			--CreateHeirloomFrame(TaxiFrame)
+		--else
+		--	CreateHeirloomFrame(FlightMapFrame)
+		--end
 		
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
@@ -215,29 +215,126 @@ function IsUnderwaterNode(name, x, y)
 end
 
 
--- Frame for heirloom maps
-function CreateHeirloomFrame(ParentFrame)
-
-	local f = CreateFrame("Frame", "HeirloomReminderFrame", ParentFrame, BackdropTemplateMixin and "BackdropTemplate")
-	
-	-- Size & location
-	f:SetPoint("BOTTOM", 0, -40)
-	f:SetSize(285, 40)
-
-	-- Colors
-	f:SetBackdrop({
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-		edgeFile = "Interface\\PVPFrame\\UI-Character-PVP-Highlight",
-		edgeSize = 16,
-		insets = { left = 8, right = 6, top = 8, bottom = 8 },
-	})
-	f:SetBackdropBorderColor(0, 1, 0, 1)
-	
-	local text = f:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	text:SetPoint("CENTER", 0, 0)
-	text:SetText("Remember to use your heirloom maps!")
-
-end
 
 
 print("MFP loaded. Thanks for downloading!")
+
+
+
+
+
+
+
+
+
+-- Surviving Kalimdor
+local _,itemLink1,_,_,_,_,_,_,_,_,_ = GetItemInfo(150743)
+--print(itemLink1)
+local f = CreateFrame("Frame", "HeirloomIcon1", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
+f:SetPoint("CENTER", 250, 250)
+f:SetSize(25,25)
+
+local tex = GetItemIcon(150743)
+f.texture = f:CreateTexture()
+f.texture:SetTexture(tex)
+f.texture:SetAllPoints(f)
+f:HookScript("OnEnter", function()
+	if (tex) then
+		GameTooltip:SetOwner(f, "ANCHOR_TOP")
+		GameTooltip:SetHyperlink(itemLink1)
+		GameTooltip:Show()
+	end
+end)
+	
+f:HookScript("OnLeave", function()
+	GameTooltip:Hide()
+end)
+
+
+
+
+-- To Modernize the Provisioning of2 Azeroth
+local _,itemLink2,_,_,_,_,_,_,_,_,_ = GetItemInfo(150746)
+--print(itemLink2)
+f2 = CreateFrame("Frame", "HeirloomIcon2", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
+f2:SetPoint("TOP", HeirloomIcon1, "BOTTOM", 0, 0)
+f2:SetSize(25,25)
+
+tex = GetItemIcon(150746)
+f2.texture = f2:CreateTexture()
+f2.texture:SetTexture(tex)
+f2.texture:SetAllPoints(f2)
+f2:HookScript("OnEnter", function()
+	if (tex) then
+		GameTooltip:SetOwner(f2, "ANCHOR_TOP")
+		GameTooltip:SetHyperlink(itemLink2)
+		GameTooltip:Show()
+	end
+end)
+	
+f2:HookScript("OnLeave", function()
+	GameTooltip:Hide()
+end)
+
+
+
+
+
+-- Walking Kalimdor with the Earthmother
+local _,itemLink3,_,_,_,_,_,_,_,_,_ = GetItemInfo(150745)
+f3 = CreateFrame("Frame", "HeirloomIcon3", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
+f3:SetPoint("TOP", HeirloomIcon2, "BOTTOM", 0, 0)
+f3:SetSize(25,25)
+
+tex = GetItemIcon(150745)
+f3.texture = f3:CreateTexture()
+f3.texture:SetTexture(tex)
+f3.texture:SetAllPoints(f3)
+f3:HookScript("OnEnter", function()
+	if (tex) then
+		GameTooltip:SetOwner(f3, "ANCHOR_TOP")
+		GameTooltip:SetHyperlink(itemLink3)
+		GameTooltip:Show()
+	end
+end)
+	
+f3:HookScript("OnLeave", function()
+	GameTooltip:Hide()
+end)
+
+
+
+
+-- The Azeroth Campaign
+local _,itemLink4,_,_,_,_,_,_,_,_,_ = GetItemInfo(150744)
+f4 = CreateFrame("Frame", "HeirloomIcon4", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
+f4:SetPoint("TOP", HeirloomIcon3, "BOTTOM", 0, 0)
+f4:SetSize(25,25)
+
+tex = GetItemIcon(150744)
+f4.texture = f4:CreateTexture()
+f4.texture:SetTexture(tex)
+f4.texture:SetAllPoints(f4)
+f4:HookScript("OnEnter", function()
+	if (tex) then
+		GameTooltip:SetOwner(f4, "ANCHOR_TOP")
+		GameTooltip:SetHyperlink(itemLink4)
+		GameTooltip:Show()
+	end
+end)
+	
+f4:HookScript("OnLeave", function()
+	GameTooltip:Hide()
+end)
+
+
+
+
+
+
+
+
+
+
+
+
