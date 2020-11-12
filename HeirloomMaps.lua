@@ -35,7 +35,13 @@ function ns:CreateNewHeirloomIcons(loc)
 		local f = nil
 		if i == 1 then
 			f = CreateFrame("Button", "HeirloomIcon1", frameType, "SecureActionButtonTemplate")
-			f:SetPoint("TOP", 0, 30)
+			
+			if frameType == TaxiFrame then
+				f:SetPoint("BOTTOM", 0, -30)
+			else
+				f:SetPoint("TOP", 0, 30)
+			end
+			
 		else
 			f = CreateFrame("Button", "HeirloomIcon1", MapFrames[i-1], "SecureActionButtonTemplate")
 			f:SetPoint("RIGHT", 30, 0)
