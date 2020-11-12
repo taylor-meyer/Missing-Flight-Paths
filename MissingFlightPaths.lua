@@ -24,6 +24,8 @@ local TaxiFrameIDs = {
 	1159  -- Alliance Garrison lv3
 }
 
+
+
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -33,11 +35,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
-		--if PlayerInPandaria(instanceID) == true then
-			--CreateHeirloomFrame(TaxiFrame)
-		--else
-		--	CreateHeirloomFrame(FlightMapFrame)
-		--end
+		ns:CreateNewHeirloomIcons(instanceID)
 		
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()

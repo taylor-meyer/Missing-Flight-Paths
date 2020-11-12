@@ -140,7 +140,24 @@ local InvalidNames = {
 	"Devoted Sanctuary, Vol'dun"
 }
 
+-- These zones use a different frame
+-- "TaxiFrame"
+local TaxiFrameIDs = {
+	870, -- Pandaria
+	1064, -- Isle of Thunder
+	1116, -- Draenor
+	1191, -- Ashran
+	1464, -- Tanaan Jungle
+	1152, -- Horde Garrison lv1
+	1330, -- Horde Garrison lv2
+	1153, -- Horde Garrison lv3
+	1158, -- Alliance Garrison lv1
+	1331, -- Alliance Garrison lv2
+	1159  -- Alliance Garrison lv3
+}
+
 ns[1] = KulTirasFerryNodes
 ns[2] = TiragardeSoundNPCs
 ns[3] = UnderwaterVashjirNodes
 ns[4] = InvalidNames
+ns[5] = TaxiFrameIDs
