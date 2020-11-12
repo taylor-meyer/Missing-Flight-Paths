@@ -222,26 +222,26 @@ print("MFP loaded. Thanks for downloading!")
 
 
 
-
-
-
-
+-- Map Tests
 
 -- Surviving Kalimdor
-local _,itemLink1,_,_,_,_,_,_,_,_,_ = GetItemInfo(150743)
---print(itemLink1)
-local f = CreateFrame("Frame", "HeirloomIcon1", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
-f:SetPoint("CENTER", 250, 250)
+local itemID, toyName = C_ToyBox.GetToyInfo(150743)
+local itemLink = C_ToyBox.GetToyLink(itemID)
+
+local f = CreateFrame("Button", "HeirloomIcon1", UIPARENT, "SecureActionButtonTemplate")
+f:SetPoint("CENTER", 0, 0)
 f:SetSize(25,25)
 
-local tex = GetItemIcon(150743)
+-- Texture
+local tex = GetItemIcon(itemID)
 f.texture = f:CreateTexture()
 f.texture:SetTexture(tex)
 f.texture:SetAllPoints(f)
+
 f:HookScript("OnEnter", function()
 	if (tex) then
 		GameTooltip:SetOwner(f, "ANCHOR_TOP")
-		GameTooltip:SetHyperlink(itemLink1)
+		GameTooltip:SetHyperlink(itemLink)
 		GameTooltip:Show()
 	end
 end)
@@ -250,17 +250,24 @@ f:HookScript("OnLeave", function()
 	GameTooltip:Hide()
 end)
 
+f:SetAttribute("type", "toy")
+f:SetAttribute("toy", itemID)
+
+
+
+
 
 
 
 -- To Modernize the Provisioning of2 Azeroth
-local _,itemLink2,_,_,_,_,_,_,_,_,_ = GetItemInfo(150746)
---print(itemLink2)
-f2 = CreateFrame("Frame", "HeirloomIcon2", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
-f2:SetPoint("TOP", HeirloomIcon1, "BOTTOM", 0, 0)
+local itemID2, toyName2 = C_ToyBox.GetToyInfo(150746)
+local itemLink2 = C_ToyBox.GetToyLink(itemID2)
+
+f2 = CreateFrame("Button", "HeirloomIcon2", UIPARENT, "SecureActionButtonTemplate")
+f2:SetPoint("LEFT", HeirloomIcon1, "RIGHT", 10, 0)
 f2:SetSize(25,25)
 
-tex = GetItemIcon(150746)
+tex = GetItemIcon(itemID2)
 f2.texture = f2:CreateTexture()
 f2.texture:SetTexture(tex)
 f2.texture:SetAllPoints(f2)
@@ -276,20 +283,30 @@ f2:HookScript("OnLeave", function()
 	GameTooltip:Hide()
 end)
 
+f2:SetAttribute("type", "toy")
+f2:SetAttribute("toy", itemID2)
+
+
+
+
+
 
 
 
 
 -- Walking Kalimdor with the Earthmother
-local _,itemLink3,_,_,_,_,_,_,_,_,_ = GetItemInfo(150745)
-f3 = CreateFrame("Frame", "HeirloomIcon3", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
-f3:SetPoint("TOP", HeirloomIcon2, "BOTTOM", 0, 0)
+local itemID3, toyName3 = C_ToyBox.GetToyInfo(150744)
+local itemLink3 = C_ToyBox.GetToyLink(itemID3)
+
+f3 = CreateFrame("Button", "HeirloomIcon3", UIPARENT, "SecureActionButtonTemplate", BackdropTemplateMixin and "BackdropTemplate") 
+f3:SetPoint("LEFT", HeirloomIcon2, "RIGHT", 10, 0)
 f3:SetSize(25,25)
 
-tex = GetItemIcon(150745)
+tex = GetItemIcon(itemID3)
 f3.texture = f3:CreateTexture()
 f3.texture:SetTexture(tex)
 f3.texture:SetAllPoints(f3)
+
 f3:HookScript("OnEnter", function()
 	if (tex) then
 		GameTooltip:SetOwner(f3, "ANCHOR_TOP")
@@ -302,16 +319,22 @@ f3:HookScript("OnLeave", function()
 	GameTooltip:Hide()
 end)
 
+f3:SetAttribute("type", "toy")
+f3:SetAttribute("toy", itemID3)
+
+
 
 
 
 -- The Azeroth Campaign
-local _,itemLink4,_,_,_,_,_,_,_,_,_ = GetItemInfo(150744)
-f4 = CreateFrame("Frame", "HeirloomIcon4", UIPARENT, BackdropTemplateMixin and "BackdropTemplate") 
-f4:SetPoint("TOP", HeirloomIcon3, "BOTTOM", 0, 0)
+local itemID4, toyName4 = C_ToyBox.GetToyInfo(150745)
+local itemLink4 = C_ToyBox.GetToyLink(itemID3)
+
+f4 = CreateFrame("Button", "HeirloomIcon4", UIPARENT, "SecureActionButtonTemplate", BackdropTemplateMixin and "BackdropTemplate") 
+f4:SetPoint("LEFT", HeirloomIcon3, "RIGHT", 10, 0)
 f4:SetSize(25,25)
 
-tex = GetItemIcon(150744)
+tex = GetItemIcon(itemID4)
 f4.texture = f4:CreateTexture()
 f4.texture:SetTexture(tex)
 f4.texture:SetAllPoints(f4)
@@ -322,16 +345,14 @@ f4:HookScript("OnEnter", function()
 		GameTooltip:Show()
 	end
 end)
+
 	
 f4:HookScript("OnLeave", function()
 	GameTooltip:Hide()
 end)
 
-
-
-
-
-
+f4:SetAttribute("type", "toy")
+f4:SetAttribute("toy", itemID4)
 
 
 
