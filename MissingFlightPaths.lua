@@ -35,7 +35,11 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
-		ns:CreateNewHeirloomIcons(instanceID)
+		if PlayerInPandaria(instanceID) == true then
+			ns:ShowHeirloomMaps(TaxiFrame)
+		else
+			ns:ShowHeirloomMaps(FlightMapFrame)
+		end
 		
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
@@ -51,6 +55,11 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		else
 			PlaceNonSpecialNodes()
 		end
+
+	elseif event == "TAXIMAP_CLOSED" then
+	
+		ns:HideHeirloomMaps()
+	
 	end
 end)
 
