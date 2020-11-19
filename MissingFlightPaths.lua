@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------
 -- Missing Flight Paths --
 --------------------
--- Author: Lypidius <Axiom> @ US-MoonGuard
+-- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
@@ -24,6 +24,8 @@ local TaxiFrameIDs = {
 	1159  -- Alliance Garrison lv3
 }
 
+
+
 -- Event frame
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -31,8 +33,14 @@ TaxiOpenEventFrame:RegisterEvent("TAXIMAP_CLOSED")
 TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		ClearAllMarks()
-		
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
+		
+		if PlayerInPandaria(instanceID) == true then
+			ns:ShowHeirloomMaps(TaxiFrame)
+		else
+			ns:ShowHeirloomMaps(FlightMapFrame)
+		end
+		
 		if instanceID == 1643 then -- Kul Tiras
 			PlaceKulTirasNodes()
 		
@@ -47,6 +55,11 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		else
 			PlaceNonSpecialNodes()
 		end
+
+	elseif event == "TAXIMAP_CLOSED" then
+	
+		ns:HideHeirloomMaps()
+	
 	end
 end)
 
