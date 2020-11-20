@@ -84,13 +84,13 @@ function ns:ShowHeirloomMaps(frameType)
 	if PlayerHasToy(EKMapID) == false then
 		MapFrames[1].texture:SetVertexColor(0.7, 0, 0, 1)
 	else
-		MapFrames[1].texture:SetVertexColor(0, 0.7, 0, 1)
+		--MapFrames[1].texture:SetVertexColor(0, 0.7, 0, 1)
 	end
 	
 	if PlayerHasToy(KalMapID) == false then
 		MapFrames[2].texture:SetVertexColor(0.7, 0, 0, 1)
 	else
-		MapFrames[2].texture:SetVertexColor(0, 0.7, 0, 1)
+		--MapFrames[2].texture:SetVertexColor(0, 0.7, 0, 1)
 	end
 	
 	MapFrames[1]:Show()
