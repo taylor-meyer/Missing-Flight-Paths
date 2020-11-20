@@ -2,7 +2,7 @@
 ## Title: Missing Flight Paths
 ## Notes: Shows missing flight points as green exclamation marks on the flight map.
 ## Author: Lypidius
-## Version: 0.9.1
+## Version: 1.0
 ## DefaultState: enabled
 
 SpecialNodes.lua
