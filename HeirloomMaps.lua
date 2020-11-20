@@ -5,6 +5,8 @@
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
+local EKMapID = nil
+local KalMapID = nil
 local MapFrames = {}
 
 local function MakeEKMapIcon(itemID)
@@ -78,6 +80,15 @@ function ns:ShowHeirloomMaps(frameType)
 	else
 		MapFrames[1]:SetPoint("BOTTOM", frameType, "TOP", -15, 5)
 	end
+	
+	if PlayerHasToy(EKMapID) == false then
+		f.texture:SetVertexColor(0.7, 0, 0, 1)
+	end
+	
+	if PlayerHasToy(KalMapID) == false then
+		f.texture:SetVertexColor(0.7, 0, 0, 1)
+	end
+	
 	MapFrames[1]:Show()
 	MapFrames[2]:Show()
 end
@@ -93,9 +104,13 @@ local englishFaction = UnitFactionGroup("player")
 if englishFaction == "Alliance" then
 	MakeEKMapIcon(150746)
 	MakeKalimdorMapIcon(150743)
+	EKMapID = 150746
+	KalMapID = 150743
 else
 	MakeEKMapIcon(150745)
 	MakeKalimdorMapIcon(150744)
+	EKMapID = 150745
+	KalMapID = 150744
 end
 
 ns[6] = MapFrames
