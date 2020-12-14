@@ -148,7 +148,31 @@ function PlaceKulTirasNodes()
 			return
 		end
 	end
-	PlaceNodes(false)
+	PlaceNonFerryNodes()
+end
+
+function PlaceNonFerryNodes()
+	for i=1,NumTaxiNodes() do
+		local X,Y = TaxiNodePosition(i)
+		local Type = TaxiNodeGetType(i)
+		local name = TaxiNodeName(i)
+		
+		if IsFerryNode(X,Y) == false then
+			if Type == "DISTANT" then
+				PlacePoint(name, X, Y, false)
+			end
+		end		
+	end
+end
+
+function IsFerryNode(X,Y)
+	local ferryNodes = ns[1]
+	for i=1,table.getn(ferryNodes) do
+		if (tostring(X) == ferryNodes[i].x) and (tostring(Y) == ferryNodes[i].y) then
+			return true
+		end
+	end
+	return false
 end
 
 function PlaceUnderwaterVashjirNodes()
