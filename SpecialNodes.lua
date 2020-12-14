@@ -137,7 +137,9 @@ local InvalidNames = {
 	"Transitus Shield, Coldarra (NOT USED)",
 	-- These seem broken by always showing as missing
 	"Atal'Gral, Zuldazar",
-	"Devoted Sanctuary, Vol'dun"
+	"Devoted Sanctuary, Vol'dun",
+	-- Only useable by Kyrian players
+	"Elysian Hold, Bastion"
 }
 
 -- These zones use a different frame
