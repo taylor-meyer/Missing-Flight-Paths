@@ -72,7 +72,9 @@ function PlaceNonSpecialNodes()
 		local tabl = ns[4]
 		for j=1,table.getn(tabl) do
 			if Type == "DISTANT" and IsIgnoredNode(name) == false then
+				ViragDevTool_AddData(name, "string")
 				PlacePoint(name, x, y, false)
+				break
 			end
 		end
 	end

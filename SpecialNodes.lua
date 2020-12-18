@@ -139,7 +139,10 @@ local InvalidNames = {
 	"Atal'Gral, Zuldazar",
 	"Devoted Sanctuary, Vol'dun",
 	-- Only useable by Kyrian players
-	"Elysian Hold, Bastion"
+	"Elysian Hold, Bastion",
+	-- Bastion flight paths normally hidden from players
+	"[Hidden] 9.0 Bastion Ground Points Hub (Ground TP out to here, TP to Sanctum from here)",
+	"[Hidden] 9.0 Bastion Ground Hub (Sanctum TP out to here, TP to ground from here)"
 }
 
 -- These zones use a different frame
