@@ -35,8 +35,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
-		local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
-		ViragDevTool_AddData(taxiNodes, "taxiNodes")
+
 		
 		if PlayerInPandaria(instanceID) == true then
 			ns:ShowHeirloomMaps(TaxiFrame)
@@ -58,10 +57,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		elseif instanceID == 2222 then
 			
 			if IsKyrianTransportNode() == false then
-				print("isKyrian false")
 				PlaceNonSpecialNodes()
-			else
-					print("isKyrian true")
 			end
 			
 		else
@@ -282,5 +278,3 @@ function IsUnderwaterNode(name, x, y)
 	end
 	return false
 end
-
-print("MFP loaded. Thanks for downloading!")
