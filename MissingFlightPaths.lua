@@ -35,6 +35,9 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
+		local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+		ViragDevTool_AddData(taxiNodes, "taxiNodes")
+		
 		if PlayerInPandaria(instanceID) == true then
 			ns:ShowHeirloomMaps(TaxiFrame)
 		else
@@ -52,6 +55,15 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			end
 		elseif PlayerInPandaria(instanceID) == true then
 			PlacePandariaNodes()
+		elseif instanceID == 2222 then
+			
+			if IsKyrianTransportNode() == false then
+				print("isKyrian false")
+				PlaceNonSpecialNodes()
+			else
+					print("isKyrian true")
+			end
+			
 		else
 			PlaceNonSpecialNodes()
 		end
@@ -72,7 +84,6 @@ function PlaceNonSpecialNodes()
 		local tabl = ns[4]
 		for j=1,table.getn(tabl) do
 			if Type == "DISTANT" and IsIgnoredNode(name) == false then
-				ViragDevTool_AddData(name, "string")
 				PlacePoint(name, x, y, false)
 				break
 			end
@@ -94,6 +105,7 @@ end
 
 function PlacePoint(name, x, y, isDraenor)
 
+	local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 	local f = nil
 	local width = nil
 	local height = nil
@@ -103,8 +115,13 @@ function PlacePoint(name, x, y, isDraenor)
 		height = 16
 	else
 		f = FlightMapFrame.ScrollContainer.Child
-		width = 75
-		height = 75
+		if instanceID == 2222 then
+			width = 25
+			height = 25
+		else
+			width = 75
+			height = 75
+		end
 	end
 	
 	
@@ -133,6 +150,25 @@ function PlacePoint(name, x, y, isDraenor)
 	
 	Marks[table.getn(Marks) + 1] = pin
 	pin:Show()
+end
+
+function IsKyrianTransportNode()
+
+	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	
+	for i=1,table.getn(taxiNodes) do
+		
+		if taxiNodes[i].state == 0 then -- current node
+
+			if taxiNodes[i].textureKit ~= nil then
+				return true
+			end
+			
+			return false
+			
+		end
+	end
+	return false
 end
 
 function ClearAllMarks()
