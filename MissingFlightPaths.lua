@@ -114,8 +114,8 @@ function PlacePoint(name, x, y, isDraenor)
 	else
 		f = FlightMapFrame.ScrollContainer.Child
 		if instanceID == 2222 then
-			width = 25
-			height = 25
+			width = 40
+			height = 40
 		else
 			width = 75
 			height = 75
