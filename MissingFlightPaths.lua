@@ -58,6 +58,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			
 			if IsKyrianTransportNode() == false then
 				PlaceNonSpecialNodes()
+			else
+				ns:HideHeirloomMaps()
 			end
 			
 		else
