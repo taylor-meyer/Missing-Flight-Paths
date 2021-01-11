@@ -4,7 +4,9 @@
 ## Author: Lypidius
 ## Version: 1.1
 ## DefaultState: enabled
+## SavedVariables: MissingNodes
 
+WorldMap.lua
 SpecialNodes.lua
 HeirloomMaps.lua
 MissingFlightPaths.lua
