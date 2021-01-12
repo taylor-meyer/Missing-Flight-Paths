@@ -1,47 +1,76 @@
 
 local addon, ns = ... -- Addon name & common namespace
 
-local savedvariableframe = CreateFrame("Frame")
+local marks = {}
+
+CreateFrame("Frame", "savedvariableframe", UIParent)
 savedvariableframe:RegisterEvent("ADDON_LOADED")
 savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" and arg1 == "MissingFlightPaths" then
-        -- Our saved variables, if they exist, have been loaded at this point.
+    if event == "ADDON_LOADED" and arg1 == "MissingFlightPaths" then 
         if MissingNodes == nil then
-            -- This is the first time this addon is loaded; set SVs to default values
             MissingNodes = {}
         end
 	end
 end)
 
--- Event frame
-CreateFrame("Frame", "eventFrame", UIParent)
-eventFrame:RegisterEvent("TAXIMAP_OPENED")
-eventFrame:SetScript("OnEvent", function(self, event, ...)
+CreateFrame("Frame", "refreshdbframe", UIParent)
+refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
+refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
-	
 		ns:RefreshDB()
-		
 	end
 end)
 
+CreateFrame("Frame", "mapupdateframe", UIParent)
+mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")
+mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
+    if event == "QUEST_LOG_UPDATE" then
+		ns:RefreshMap()
+	end
+end)
+
+
 function ns:RefreshDB()
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	
+	local names
+	
 	if ns:IsKyrianTransportNode(taxiNodes) == false then
-		
 		for i=1,table.getn(taxiNodes) do
-		
 			if ns:DBContains(taxiNodes[i].nodeID) == false then
-			
 				if taxiNodes[i].state == 2 then
 				
-					MissingNodes[table.getn(MissingNodes)+1] = taxiNodes[i]
+					local node = {
+						name = taxiNodes[i].name,
+						x = ns:FindXPos(taxiNodes[i].name),
+						y = ns:FindYPos(taxiNodes[i].name)
+					}
 				
+					MissingNodes[#(MissingNodes)+1] = node
+					
 				end
-			
 			end
-		
 		end
-	
+	end
+end
+
+function ns:FindXPos(n)
+	local numNodes = NumTaxiNodes()
+	for i=1,numNodes do
+		if TaxiNodeName(i) == n then
+			local x = TaxiNodePosition(i);
+			return x
+		end
+	end
+end
+
+function ns:FindYPos(n)
+	local numNodes = NumTaxiNodes()
+	for i=1,numNodes do
+		if TaxiNodeName(i) == n then
+			local _,y = TaxiNodePosition(i);
+			return y
+		end
 	end
 end
 
@@ -58,49 +87,53 @@ function ns:IsKyrianTransportNode(nodes)
 end
 
 function ns:DBContains(id)
-
 	for i=1,table.getn(MissingNodes) do
-
 		if MissingNodes[i].nodeID == id then
-			print("true")
 			return true
 		end
-	
 	end
-	print("return false")
 	return false
 end
 
-function ns:PlacePointOnWorldMap(name, x, y)
 
-	local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
-	local f = nil
-	local width = nil
-	local height = nil
-	if isDraenor == true then
-		f = TaxiRouteMap
-		width = 16
-		height = 16
-	else
-		f = FlightMapFrame.ScrollContainer.Child
-		if instanceID == 2222 then
-			width = 40
-			height = 40
-		else
-			width = 75
-			height = 75
+
+
+function ns:RefreshMap()
+	ns:ClearAllMarks()
+	if MissingNodes ~= nil then
+		for i=1,#(MissingNodes) do
+			ns:PlacePointOnWorldMap(MissingNodes[i])
 		end
 	end
+end
+
+function ns:ClearAllMarks()
+	--ViragDevTool_AddData(marks, "marks")
+	for i=1,#(marks) do
+		marks[i]:Hide()
+	end
+	marks = {}
+end
+
+function ns:PlacePointOnWorldMap(node)
+
+	local width = 100
+	local height = 100
+	
+	local x = node.x
+	local y = node.y
+	
+	local f = WorldMapFrame.ScrollContainer.Child
 	
 	
-	local pin = CreateFrame("Frame", "MFPPin_" .. name, f)
+	local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, f)
 	pin:SetWidth(width)
 	pin:SetHeight(height)
 	
 	pin:HookScript("OnEnter", function()
-			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-			GameTooltip:AddLine(name, 0, 1, 0)
-			GameTooltip:Show()
+		GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+		GameTooltip:AddLine(node.name, 0, 1, 0)
+		GameTooltip:Show()
 	end)
 	
 	pin:HookScript("OnLeave", function()
@@ -114,9 +147,24 @@ function ns:PlacePointOnWorldMap(name, x, y)
 	
 	pin:SetFrameStrata("TOOLTIP")
 	pin:SetFrameLevel(f:GetFrameLevel() + 1)
+	
+	
+	
 	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
 	
-	Marks[table.getn(Marks) + 1] = pin
+	marks[#(marks) + 1] = pin
+	
 	pin:Show()
+	
+	
+	
+	--ViragDevTool_AddData(node.name, "node.name")
+	--ViragDevTool_AddData(x * f:GetWidth(), "x * f:GetWidth()")
+	--ViragDevTool_AddData(y * f:GetHeight(), "y * f:GetWidth()")
+	
+	
+	
+	
+	
 end
 
