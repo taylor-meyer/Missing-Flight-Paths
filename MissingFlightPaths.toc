@@ -6,6 +6,8 @@
 ## DefaultState: enabled
 ## SavedVariables: MissingNodes
 
+libs\HereBeDragons\HereBeDragons-2.0.lua
+libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 WorldMap.lua
 SpecialNodes.lua
 HeirloomMaps.lua

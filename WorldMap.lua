@@ -1,6 +1,11 @@
 
 local addon, ns = ... -- Addon name & common namespace
 
+MFPGlobal = { }
+
+MFPGlobal.hbd = LibStub("HereBeDragons-2.0")
+MFPGlobal.pins = LibStub("HereBeDragons-Pins-2.0")
+
 local marks = {}
 
 CreateFrame("Frame", "savedvariableframe", UIParent)
@@ -36,17 +41,49 @@ function ns:RefreshDB()
 	
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 	
+	
+	
 	if ns:IsKyrianTransportNode(taxiNodes) == false then
 		for i=1,table.getn(taxiNodes) do
-			if ns:DBContains(taxiNodes[i].nodeID) == false then
-				if taxiNodes[i].state == 2 then
-					local node = {
-						name = taxiNodes[i].name,
-						x = ns:FindXPos(taxiNodes[i].name),
-						y = ns:FindYPos(taxiNodes[i].name)
+			if taxiNodes[i].state == 2 then
+				local node = {
+					name = taxiNodes[i].name,
+					x = ns:FindXPos(taxiNodes[i].name),
+					y = ns:FindYPos(taxiNodes[i].name)
+				}
+				MissingNodes[#(MissingNodes)+1] = node
+					
+					
+					local x, y, UiMapID, UiMapType = MFPGlobal.hbd:GetPlayerZonePosition();
+					
+					print(x)
+					print(y)
+					
+					--print(UiMapID)
+					
+					--print(node.x)
+					--print(node.y)
+					
+					local zoneX, zoneY = MFPGlobal.hbd:GetZoneCoordinatesFromWorld(node.x, node.y, 1533, false)
+					ViragDevTool_AddData(zoneX, "zoneX")
+					ViragDevTool_AddData(zoneY, "zoneY")
+			
+					local temp = {
+						node.name,
+						node.x,
+						node.y,
+						zoneX,
+						zoney
 					}
-					MissingNodes[#(MissingNodes)+1] = node
-				end
+					
+					ViragDevTool_AddData(temp, "temp")
+					
+					
+					
+					
+					
+					
+					
 			end
 		end
 	end
@@ -85,8 +122,9 @@ function ns:IsKyrianTransportNode(nodes)
 end
 
 function ns:DBContains(id)
-	for i=1,table.getn(MissingNodes) do
+	for i=1,#(MissingNodes) do
 		if MissingNodes[i].nodeID == id then
+			print("true")
 			return true
 		end
 	end
