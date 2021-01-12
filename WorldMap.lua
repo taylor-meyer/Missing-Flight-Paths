@@ -31,23 +31,21 @@ end)
 
 
 function ns:RefreshDB()
-	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+
+	MissingNodes = {}
 	
-	local names
+	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 	
 	if ns:IsKyrianTransportNode(taxiNodes) == false then
 		for i=1,table.getn(taxiNodes) do
 			if ns:DBContains(taxiNodes[i].nodeID) == false then
 				if taxiNodes[i].state == 2 then
-				
 					local node = {
 						name = taxiNodes[i].name,
 						x = ns:FindXPos(taxiNodes[i].name),
 						y = ns:FindYPos(taxiNodes[i].name)
 					}
-				
 					MissingNodes[#(MissingNodes)+1] = node
-					
 				end
 			end
 		end
