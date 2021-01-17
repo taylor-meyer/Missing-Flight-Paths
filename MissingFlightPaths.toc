@@ -4,8 +4,10 @@
 ## Author: Lypidius
 ## Version: 1.1
 ## DefaultState: enabled
-## SavedVariables: MissingNodes
+## SavedVariablesPerCharacter: MissingNodes
 
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\HereBeDragons\HereBeDragons-2.0.lua
 libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 WorldMap.lua

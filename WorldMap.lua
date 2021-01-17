@@ -37,7 +37,9 @@ end)
 
 function ns:RefreshDB()
 
-	MissingNodes = {}
+	if MissingNodes == nil then
+		MissingNodes = {}
+	end
 	
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 	
@@ -54,36 +56,21 @@ function ns:RefreshDB()
 				MissingNodes[#(MissingNodes)+1] = node
 					
 					
-					local x, y, UiMapID, UiMapType = MFPGlobal.hbd:GetPlayerZonePosition();
+				
 					
-					print(x)
-					print(y)
-					
-					--print(UiMapID)
-					
-					--print(node.x)
-					--print(node.y)
-					
-					local zoneX, zoneY = MFPGlobal.hbd:GetZoneCoordinatesFromWorld(node.x, node.y, 1533, false)
-					ViragDevTool_AddData(zoneX, "zoneX")
-					ViragDevTool_AddData(zoneY, "zoneY")
-			
-					local temp = {
-						node.name,
-						node.x,
-						node.y,
-						zoneX,
-						zoney
-					}
-					
-					ViragDevTool_AddData(temp, "temp")
-					
-					
-					
-					
-					
-					
-					
+				local zoneX, zoneY = MFPGlobal.hbd:GetZoneCoordinatesFromWorld(node.x, node.y, 1533, false)
+				ViragDevTool_AddData(zoneX, "zoneX")
+				ViragDevTool_AddData(zoneY, "zoneY")
+		
+				local temp = {
+					node.name,
+					node.x,
+					node.y,
+					zoneX,
+					zoney
+				}
+				
+				ViragDevTool_AddData(temp, "temp")
 			end
 		end
 	end
@@ -131,9 +118,6 @@ function ns:DBContains(id)
 	return false
 end
 
-
-
-
 function ns:RefreshMap()
 	ns:ClearAllMarks()
 	if MissingNodes ~= nil then
@@ -153,8 +137,8 @@ end
 
 function ns:PlacePointOnWorldMap(node)
 
-	local width = 100
-	local height = 100
+	local width = 65
+	local height = 65
 	
 	local x = node.x
 	local y = node.y
@@ -184,23 +168,15 @@ function ns:PlacePointOnWorldMap(node)
 	pin:SetFrameStrata("TOOLTIP")
 	pin:SetFrameLevel(f:GetFrameLevel() + 1)
 	
-	
-	
+
 	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
 	
 	marks[#(marks) + 1] = pin
-	
 	pin:Show()
-	
-	
 	
 	--ViragDevTool_AddData(node.name, "node.name")
 	--ViragDevTool_AddData(x * f:GetWidth(), "x * f:GetWidth()")
 	--ViragDevTool_AddData(y * f:GetHeight(), "y * f:GetWidth()")
-	
-	
-	
-	
-	
+
 end
 
