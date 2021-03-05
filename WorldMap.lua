@@ -19,8 +19,8 @@ MFPGlobal.pins = LibStub("HereBeDragons-Pins-2.0")
 CreateFrame("Frame", "savedvariableframe", UIParent)
 savedvariableframe:RegisterEvent("ADDON_LOADED")
 savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" and arg1 == "MissingFlightPaths" then 
-        if MissingNodes == nil then
+    if event == "ADDON_LOADED" and arg1 == "MissingFlightPaths" then
+		if MissingNodes == nil then
             MissingNodes = {}
         end
 	end
@@ -32,8 +32,8 @@ CreateFrame("Frame", "refreshdbframe", UIParent)
 refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
 refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
-		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
 		if ns:TargetIsFerryMaster() == false then
+			local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()		
 			ns:SaveMissingNodes(instanceID)
 		end
 	end
@@ -52,8 +52,9 @@ function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 	MissingNodes[instanceID] = {}
 	local nodes = {}
-		for i=1,table.getn(taxiNodes) do
-			if taxiNodes[i].state == 2 then
+		for i=1,#(taxiNodes) do
+			if taxiNodes[i].state == 2 and
+			   taxiNodes[i].textureKit == nil then
 				local X,Y = ns:FindXYPos(taxiNodes[i].name)
 				local node = {
 					name = taxiNodes[i].name,
