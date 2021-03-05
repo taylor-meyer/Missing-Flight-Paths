@@ -1,6 +1,8 @@
 
 local addon, ns = ... -- Addon name & common namespace
 
+local callCounter = 0
+
 MFPGlobal = { }
 
 MFPGlobal.hbd = LibStub("HereBeDragons-2.0")
@@ -31,6 +33,7 @@ mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")
 mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
     if event == "QUEST_LOG_UPDATE" then
 		ns:RefreshMap()
+		print(callCounter)
 	end
 end)
 
@@ -59,8 +62,8 @@ function ns:RefreshDB()
 				
 					
 				local zoneX, zoneY = MFPGlobal.hbd:GetZoneCoordinatesFromWorld(node.x, node.y, 1533, false)
-				ViragDevTool_AddData(zoneX, "zoneX")
-				ViragDevTool_AddData(zoneY, "zoneY")
+				--ViragDevTool_AddData(zoneX, "zoneX")
+				--ViragDevTool_AddData(zoneY, "zoneY")
 		
 				local temp = {
 					node.name,
@@ -70,7 +73,7 @@ function ns:RefreshDB()
 					zoney
 				}
 				
-				ViragDevTool_AddData(temp, "temp")
+				--ViragDevTool_AddData(temp, "temp")
 			end
 		end
 	end
@@ -120,6 +123,10 @@ end
 
 function ns:RefreshMap()
 	ns:ClearAllMarks()
+	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
+	callCounter = 0
+	print("missingNodes size: " .. #(MissingNodes))
+	ViragDevTool_AddData(MissingNodes, "MissingNodes")
 	if MissingNodes ~= nil then
 		for i=1,#(MissingNodes) do
 			ns:PlacePointOnWorldMap(MissingNodes[i])
@@ -137,8 +144,8 @@ end
 
 function ns:PlacePointOnWorldMap(node)
 
-	local width = 65
-	local height = 65
+	local width = 16
+	local height = 16
 	
 	local x = node.x
 	local y = node.y
@@ -169,7 +176,9 @@ function ns:PlacePointOnWorldMap(node)
 	pin:SetFrameLevel(f:GetFrameLevel() + 1)
 	
 
-	pin:SetPoint("CENTER", f, "TOPLEFT", x * f:GetWidth(), -y * f:GetHeight())
+	
+	MFPGlobal.pins:AddWorldMapIconMap(self, pin, 1550, x, y)
+	callCounter = callCounter + 1
 	
 	marks[#(marks) + 1] = pin
 	pin:Show()
