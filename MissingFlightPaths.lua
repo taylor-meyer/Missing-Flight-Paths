@@ -262,7 +262,7 @@ function PlaceEasternKingdomsNodes()
 		local x,y = TaxiNodePosition(i)
 		local Type = TaxiNodeGetType(i)
 		local name = TaxiNodeName(i)
-		if IsUnderwaterNode(name, x, y) == false then
+		if ns:IsUnderwaterNode(name, x, y) == false then
 			if Type == "DISTANT" then
 				PlacePoint(name, x, y)
 			end
@@ -270,7 +270,7 @@ function PlaceEasternKingdomsNodes()
 	end
 end
 
-function IsUnderwaterNode(name, x, y)
+function ns:IsUnderwaterNode(name, x, y)
 	local tabl = ns[3]
 	for i=1,table.getn(tabl) do
 		if (tabl[i].name == name and tabl[i].x == tostring(x) and tabl[i].y == tostring(y))

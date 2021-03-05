@@ -128,6 +128,10 @@ function ns:RefreshMap()
 	if MissingNodes[1643] ~= nil then
 		ns:PlacePointsOnWorldMap(876, MissingNodes[1643])
 	end
+	
+	if MissingNodes[2222] ~= nil then
+		ns:PlacePointsOnWorldMap(1550, MissingNodes[2222])
+	end
 
 end
 
@@ -135,7 +139,8 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 
 	for i=1,#(nodes) do
 		local node = nodes[i]
-			if ns:IsIgnoredNode(node.name) == false then
+			if ns:IsIgnoredNode(node.name) == false and
+			   ns:IsUnderwaterNode(node.name, node.x, node.y) == false then
 			
 				local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
 				pin:SetWidth(16)
