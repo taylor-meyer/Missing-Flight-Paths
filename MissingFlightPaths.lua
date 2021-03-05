@@ -47,7 +47,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			PlaceKulTirasNodes()
 		
 		elseif instanceID == 0 then -- Eastern Kingdoms
-			if AtUnderwaterNode() == true then
+			if ns:AtUnderwaterNode() == true then
 				PlaceUnderwaterVashjirNodes()
 			else
 				PlaceEasternKingdomsNodes()
@@ -248,7 +248,7 @@ function PlayerInPandaria(instanceID)
 	return false
 end
 
-function AtUnderwaterNode()
+function ns:AtUnderwaterNode()
 	local targetname = GetUnitName("target")
 	if targetname == "Swift Seahorse" then
 		return true
@@ -272,7 +272,7 @@ end
 
 function ns:IsUnderwaterNode(name, x, y)
 	local tabl = ns[3]
-	for i=1,table.getn(tabl) do
+	for i=1,#(tabl) do
 		if (tabl[i].name == name and tabl[i].x == tostring(x) and tabl[i].y == tostring(y))
 		then
 			return true
@@ -305,4 +305,12 @@ function ns:TargetIsFerryMaster()
 		end
 	end
 	return false
+end
+
+function ns:TargetIsSeahorse()
+	if GetUnitName("target") == "Swift Seahorse" then
+		return true
+	else
+		return false
+	end
 end

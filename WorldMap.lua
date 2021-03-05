@@ -29,7 +29,8 @@ CreateFrame("Frame", "refreshdbframe", UIParent)
 refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
 refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
-		if ns:TargetIsFerryMaster() == false then
+		if ns:TargetIsFerryMaster() == false and
+		   ns:TargetIsSeahorse() == false then
 			local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()		
 			ns:SaveMissingNodes(instanceID)
 		end
