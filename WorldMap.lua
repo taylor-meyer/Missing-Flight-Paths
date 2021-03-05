@@ -111,12 +111,20 @@ function ns:RefreshMap()
 		ns:PlacePointsOnWorldMap(113, MissingNodes[571])
 	end
 	
+	if MissingNodes[870] ~= nil then
+		ns:PlacePointsOnWorldMap(424, MissingNodes[870])
+	end
+	
 	if MissingNodes[1116] ~= nil then
 		ns:PlacePointsOnWorldMap(572, MissingNodes[1116])
 	end
 	
 	if MissingNodes[1220] ~= nil then
 		ns:PlacePointsOnWorldMap(619, MissingNodes[1220])
+	end
+	
+	if MissingNodes[1642] ~= nil then
+		ns:PlacePointsOnWorldMap(875, MissingNodes[1642])
 	end
 
 	
@@ -125,34 +133,35 @@ end
 function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 
 	for i=1,#(nodes) do
-	
 		local node = nodes[i]
-	
-		local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
-		pin:SetWidth(16)
-		pin:SetHeight(16)
-	
-		pin:HookScript("OnEnter", function()
-			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-			GameTooltip:AddLine(node.name, 0, 1, 0)
-			GameTooltip:Show()
-		end)
-		
-		pin:HookScript("OnLeave", function()
-			GameTooltip:Hide()
-		end)
-	
-		pin.texture = pin:CreateTexture()
-		pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
-		pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
-		pin.texture:SetAllPoints()
-	
-		pin:SetFrameStrata("TOOLTIP")
-		
-		MFPGlobal.pins:AddWorldMapIconMap(self, pin, UiMapID, node.x, node.y)
-		
-		pin:Show()
-		
+			if ns:IsIgnoredNode(node.name) == false then
+			
+				local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
+				pin:SetWidth(16)
+				pin:SetHeight(16)
+			
+				pin:HookScript("OnEnter", function()
+					GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+					GameTooltip:AddLine(node.name, 0, 1, 0)
+					GameTooltip:Show()
+				end)
+				
+				pin:HookScript("OnLeave", function()
+					GameTooltip:Hide()
+				end)
+			
+				pin.texture = pin:CreateTexture()
+				pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
+				pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
+				pin.texture:SetAllPoints()
+			
+				pin:SetFrameStrata("TOOLTIP")
+				
+				MFPGlobal.pins:AddWorldMapIconMap(self, pin, UiMapID, node.x, node.y)
+				
+				pin:Show()
+				
+		end
 	end
 end
 

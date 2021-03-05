@@ -81,7 +81,7 @@ function PlaceNonSpecialNodes()
 		local name = TaxiNodeName(i)
 		local tabl = ns[4]
 		for j=1,table.getn(tabl) do
-			if Type == "DISTANT" and IsIgnoredNode(name) == false then
+			if Type == "DISTANT" and ns:IsIgnoredNode(name) == false then
 				PlacePoint(name, x, y, false)
 				break
 			end
@@ -89,7 +89,7 @@ function PlaceNonSpecialNodes()
 	end
 end
 
-function IsIgnoredNode(name)
+function ns:IsIgnoredNode(name)
 
 	local tabl = ns[4]
 	
