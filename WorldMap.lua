@@ -4,22 +4,18 @@
 -- Author: Lypidius @ US-MoonGuard
 
 --Continents TODO:
--- EK
--- Kalimdor
--- Outland
--- Northrend
--- Pandaria
--- Draenor
--- Broken Isles
--- KT & Zandalar
+-- Alliance ferries need to be ignored
 ------------------------------------------------------------------------------------------
-local addon, ns = ... -- Addon name & common namespace
 
+-- Addon name & common namespace
+local addon, ns = ...
+
+-- libs
 MFPGlobal = { }
-
 MFPGlobal.hbd = LibStub("HereBeDragons-2.0")
 MFPGlobal.pins = LibStub("HereBeDragons-Pins-2.0")
 
+--- Saved Variable frame
 CreateFrame("Frame", "savedvariableframe", UIParent)
 savedvariableframe:RegisterEvent("ADDON_LOADED")
 savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
@@ -30,15 +26,20 @@ savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
 	end
 end)
 
+--- Event frame that refreshes list of missing flight points for current instanceID when player talks to the flight master
+-- First confirms that target is not a Kul Tiras ferry master
 CreateFrame("Frame", "refreshdbframe", UIParent)
 refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
 refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
-		ns:SaveMissingNodes(instanceID)
+		if ns:TargetIsFerryMaster() == false then
+			ns:SaveMissingNodes(instanceID)
+		end
 	end
 end)
 
+--- Event frame that refreshes pins on the world map often
 CreateFrame("Frame", "mapupdateframe", UIParent)
 mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")
 mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
@@ -46,9 +47,6 @@ mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
 		ns:RefreshMap()
 	end
 end)
-
-function ns:RefreshDB()
-end
 
 function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
@@ -140,7 +138,8 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 	for i=1,#(nodes) do
 		local node = nodes[i]
 			if ns:IsIgnoredNode(node.name) == false and
-			   ns:IsUnderwaterNode(node.name, node.x, node.y) == false then
+			   ns:IsUnderwaterNode(node.name, node.x, node.y) == false and
+			   ns:IsFerryNode(node.x,node.y) == false then
 			
 				local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
 				pin:SetWidth(16)
@@ -148,7 +147,7 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 			
 				pin:HookScript("OnEnter", function()
 					GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-					GameTooltip:AddLine(node.name, 0, 1, 0)
+					GameTooltip:AddLine(node.name .. " " .. node.x .. " " .. node.y, 0, 1, 0)
 					GameTooltip:Show()
 				end)
 				

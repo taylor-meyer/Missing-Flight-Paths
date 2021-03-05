@@ -285,3 +285,24 @@ function ns:GetInstanceID()
 	local _,_,_,_,_,_,_,instanceID = GetInstanceInfo()
 	return instanceID
 end
+
+function ns:IsFerryNode(x,y)
+	local ferryNodes = ns[1]
+	for i=1,#(ferryNodes) do
+		if (tostring(x) == ferryNodes[i].x) and (tostring(y) == ferryNodes[i].y) then
+			return true
+		end
+	end
+	return false
+end
+
+function ns:TargetIsFerryMaster()
+	local targetname = GetUnitName("target")
+	local npcs = ns[2]
+	for i=1,#(npcs) do
+		if targetname == npcs[i] then
+			return true
+		end
+	end
+	return false
+end
