@@ -2,6 +2,16 @@
 -- Missing Flight Paths --
 --------------------
 -- Author: Lypidius @ US-MoonGuard
+
+--Continents TODO:
+-- EK
+-- Kalimdor
+-- Outland
+-- Northrend
+-- Pandaria
+-- Draenor
+-- Broken Isles
+-- KT & Zandalar
 ------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
 
@@ -9,8 +19,6 @@ MFPGlobal = { }
 
 MFPGlobal.hbd = LibStub("HereBeDragons-2.0")
 MFPGlobal.pins = LibStub("HereBeDragons-Pins-2.0")
-
-local marks = {}
 
 CreateFrame("Frame", "savedvariableframe", UIParent)
 savedvariableframe:RegisterEvent("ADDON_LOADED")
@@ -26,7 +34,8 @@ CreateFrame("Frame", "refreshdbframe", UIParent)
 refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
 refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
-		ns:RefreshDB()
+		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
+		ns:SaveMissingNodes(instanceID)
 	end
 end)
 
@@ -38,44 +47,32 @@ mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
 	end
 end)
 
-
 function ns:RefreshDB()
+end
 
-	MissingNodes = {}
-	
+function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
-	
-	if ns:IsKyrianTransportNode(taxiNodes) == false then
+	MissingNodes[instanceID] = {}
+	local nodes = {}
 		for i=1,table.getn(taxiNodes) do
 			if taxiNodes[i].state == 2 then
+				local X,Y = ns:FindXYPos(taxiNodes[i].name)
 				local node = {
 					name = taxiNodes[i].name,
-					x = ns:FindXPos(taxiNodes[i].name),
-					y = ns:FindYPos(taxiNodes[i].name)
+					x = X,
+					y = Y
 				}
-				MissingNodes[#(MissingNodes)+1] = node
-					
+				nodes[#(nodes) + 1] = node
 			end
 		end
-	end
+	MissingNodes[instanceID] = nodes
 end
 
-function ns:FindXPos(n)
+function ns:FindXYPos(n)
 	local numNodes = NumTaxiNodes()
 	for i=1,numNodes do
 		if TaxiNodeName(i) == n then
-			local x = TaxiNodePosition(i);
-			return x
-		end
-	end
-end
-
-function ns:FindYPos(n)
-	local numNodes = NumTaxiNodes()
-	for i=1,numNodes do
-		if TaxiNodeName(i) == n then
-			local _,y = TaxiNodePosition(i);
-			return y
+			return TaxiNodePosition(i);
 		end
 	end
 end
@@ -92,73 +89,58 @@ function ns:IsKyrianTransportNode(nodes)
 	return false
 end
 
-function ns:DBContains(id)
-	for i=1,#(MissingNodes) do
-		if MissingNodes[i].nodeID == id then
-			return true
-		end
-	end
-	return false
-end
-
 function ns:RefreshMap()
 
-	ns:ClearAllMarks()
+	--print("#(MissingNodes): " .. #(MissingNodes))
+
 	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
-
-	if MissingNodes ~= nil then
-		for i=1,#(MissingNodes) do
-			ns:PlacePointOnWorldMap(MissingNodes[i])
-		end
+	
+	if MissingNodes[0] ~= nil then
+		ns:PlacePointsOnWorldMap(13, MissingNodes[0])
 	end
+	
+	if MissingNodes[1116] ~= nil then
+		ns:PlacePointsOnWorldMap(572, MissingNodes[1116])
+	end
+	
+	if MissingNodes[1220] ~= nil then
+		ns:PlacePointsOnWorldMap(619, MissingNodes[1220])
+	end
+
+	
 end
 
-function ns:ClearAllMarks()
-	for i=1,#(marks) do
-		marks[i]:Hide()
+function ns:PlacePointsOnWorldMap(UiMapID, nodes)
+
+	for i=1,#(nodes) do
+	
+		local node = nodes[i]
+	
+		local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
+		pin:SetWidth(16)
+		pin:SetHeight(16)
+	
+		pin:HookScript("OnEnter", function()
+			GameTooltip:SetOwner(pin, "ANCHOR_TOP")
+			GameTooltip:AddLine(node.name, 0, 1, 0)
+			GameTooltip:Show()
+		end)
+		
+		pin:HookScript("OnLeave", function()
+			GameTooltip:Hide()
+		end)
+	
+		pin.texture = pin:CreateTexture()
+		pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
+		pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
+		pin.texture:SetAllPoints()
+	
+		pin:SetFrameStrata("TOOLTIP")
+		
+		MFPGlobal.pins:AddWorldMapIconMap(self, pin, UiMapID, node.x, node.y)
+		
+		pin:Show()
+		
 	end
-	marks = {}
-end
-
-function ns:PlacePointOnWorldMap(node)
-
-	local width = 16
-	local height = 16
-	
-	local x = node.x
-	local y = node.y
-	
-	local f = WorldMapFrame.ScrollContainer.Child
-	
-	
-	local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, f)
-	pin:SetWidth(width)
-	pin:SetHeight(height)
-	
-	pin:HookScript("OnEnter", function()
-		GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-		GameTooltip:AddLine(node.name, 0, 1, 0)
-		GameTooltip:Show()
-	end)
-	
-	pin:HookScript("OnLeave", function()
-		GameTooltip:Hide()
-	end)
-	
-	pin.texture = pin:CreateTexture()
-	pin.texture:SetTexture("Interface\\MINIMAP\\ObjectIcons.blp")
-	pin.texture:SetTexCoord(0.625, 0.750, 0.125, 0.250)
-	pin.texture:SetAllPoints()
-	
-	pin:SetFrameStrata("TOOLTIP")
-	pin:SetFrameLevel(f:GetFrameLevel() + 1)
-	
-
-	
-	MFPGlobal.pins:AddWorldMapIconMap(self, pin, 1550, x, y)
-	
-	marks[#(marks) + 1] = pin
-	pin:Show()
-
 end
 

@@ -280,3 +280,8 @@ function IsUnderwaterNode(name, x, y)
 	end
 	return false
 end
+
+function ns:GetInstanceID()
+	local _,_,_,_,_,_,_,instanceID = GetInstanceInfo()
+	return instanceID
+end
