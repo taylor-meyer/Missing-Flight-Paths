@@ -91,8 +91,6 @@ end
 
 function ns:RefreshMap()
 
-	--print("#(MissingNodes): " .. #(MissingNodes))
-
 	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
 	
 	if MissingNodes[0] ~= nil then
@@ -126,8 +124,11 @@ function ns:RefreshMap()
 	if MissingNodes[1642] ~= nil then
 		ns:PlacePointsOnWorldMap(875, MissingNodes[1642])
 	end
-
 	
+	if MissingNodes[1643] ~= nil then
+		ns:PlacePointsOnWorldMap(876, MissingNodes[1643])
+	end
+
 end
 
 function ns:PlacePointsOnWorldMap(UiMapID, nodes)
