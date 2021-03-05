@@ -2,9 +2,6 @@
 -- Missing Flight Paths --
 --------------------
 -- Author: Lypidius @ US-MoonGuard
-
---Continents TODO:
--- Alliance ferries need to be ignored
 ------------------------------------------------------------------------------------------
 
 -- Addon name & common namespace
@@ -26,8 +23,8 @@ savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
 	end
 end)
 
---- Event frame that refreshes list of missing flight points for current instanceID when player talks to the flight master
--- First confirms that target is not a Kul Tiras ferry master
+--- Event frame that refreshes list of missing flight points for current instanceID when player talks to the flight master.
+-- Note: First confirms that target is not a Kul Tiras ferry master.
 CreateFrame("Frame", "refreshdbframe", UIParent)
 refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
 refreshdbframe:SetScript("OnEvent", function(self, event, ...)
@@ -39,7 +36,7 @@ refreshdbframe:SetScript("OnEvent", function(self, event, ...)
 	end
 end)
 
---- Event frame that refreshes pins on the world map often
+--- Event frame that refreshes pins on the world map.
 CreateFrame("Frame", "mapupdateframe", UIParent)
 mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")
 mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
@@ -48,6 +45,10 @@ mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
 	end
 end)
 
+--- Refreshes the database with missing flight points.
+-- Is called when ever the player talks to a flight master.
+-- instanceID is used as the key for which list is getting refreshed.
+-- @param instanceID The instanceID of player's location.
 function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 	MissingNodes[instanceID] = {}
@@ -67,6 +68,10 @@ function ns:SaveMissingNodes(instanceID)
 	MissingNodes[instanceID] = nodes
 end
 
+--- Returns x and y coordinate of flight point.
+-- Different api called used to get list of x and y coordinates.
+-- Correct x and y is returned by looking for a matching name.
+-- @param n The flight point's name.
 function ns:FindXYPos(n)
 	local numNodes = NumTaxiNodes()
 	for i=1,numNodes do
@@ -76,9 +81,12 @@ function ns:FindXYPos(n)
 	end
 end
 
+--- Checks if player is using Kyrian transport network.
+-- Kyrian transport nodes disrupt addon, so we check to make sure player is not using it.
+-- @param nodes List of nodes obtained from C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
 function ns:IsKyrianTransportNode(nodes)
-	for i=1,table.getn(nodes) do
-		if nodes[i].state == 0 then -- current node
+	for i=1,#(nodes) do
+		if nodes[i].state == 0 then
 			if nodes[i].textureKit ~= nil then
 				return true
 			end
@@ -88,6 +96,9 @@ function ns:IsKyrianTransportNode(nodes)
 	return false
 end
 
+--- Runs through entire missing nodes database and places pins on map in appropriate locations.
+-- If statements check for nil values.
+-- Draenor/Pandaria locations are skewed because the way their flight master taxi map is built is different.
 function ns:RefreshMap()
 
 	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
@@ -134,6 +145,10 @@ function ns:RefreshMap()
 
 end
 
+--- Creates the pin, sets its attributes, and places it on the map.
+-- Using HereBeDragons-Pins-2.
+-- @param UiMapID The map ID to place pins on.
+-- @param nodes List of nodes from the missing database, where the key is the instanceID.
 function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 
 	for i=1,#(nodes) do
@@ -148,7 +163,7 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 			
 				pin:HookScript("OnEnter", function()
 					GameTooltip:SetOwner(pin, "ANCHOR_TOP")
-					GameTooltip:AddLine(node.name .. " " .. node.x .. " " .. node.y, 0, 1, 0)
+					GameTooltip:AddLine(node.name, 0, 1, 0)
 					GameTooltip:Show()
 				end)
 				
