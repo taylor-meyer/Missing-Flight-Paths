@@ -107,6 +107,10 @@ function ns:RefreshMap()
 		ns:PlacePointsOnWorldMap(101, MissingNodes[530])
 	end
 	
+	if MissingNodes[571] ~= nil then
+		ns:PlacePointsOnWorldMap(113, MissingNodes[571])
+	end
+	
 	if MissingNodes[1116] ~= nil then
 		ns:PlacePointsOnWorldMap(572, MissingNodes[1116])
 	end
