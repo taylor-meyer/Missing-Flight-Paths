@@ -1,7 +1,9 @@
-
+------------------------------------------------------------------------------------------
+-- Missing Flight Paths --
+--------------------
+-- Author: Lypidius @ US-MoonGuard
+------------------------------------------------------------------------------------------
 local addon, ns = ... -- Addon name & common namespace
-
-local callCounter = 0
 
 MFPGlobal = { }
 
@@ -33,20 +35,15 @@ mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")
 mapupdateframe:SetScript("OnEvent", function(self, event, arg1)
     if event == "QUEST_LOG_UPDATE" then
 		ns:RefreshMap()
-		print(callCounter)
 	end
 end)
 
 
 function ns:RefreshDB()
 
-	if MissingNodes == nil then
-		MissingNodes = {}
-	end
+	MissingNodes = {}
 	
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
-	
-	
 	
 	if ns:IsKyrianTransportNode(taxiNodes) == false then
 		for i=1,table.getn(taxiNodes) do
@@ -58,22 +55,6 @@ function ns:RefreshDB()
 				}
 				MissingNodes[#(MissingNodes)+1] = node
 					
-					
-				
-					
-				local zoneX, zoneY = MFPGlobal.hbd:GetZoneCoordinatesFromWorld(node.x, node.y, 1533, false)
-				--ViragDevTool_AddData(zoneX, "zoneX")
-				--ViragDevTool_AddData(zoneY, "zoneY")
-		
-				local temp = {
-					node.name,
-					node.x,
-					node.y,
-					zoneX,
-					zoney
-				}
-				
-				--ViragDevTool_AddData(temp, "temp")
 			end
 		end
 	end
@@ -114,7 +95,6 @@ end
 function ns:DBContains(id)
 	for i=1,#(MissingNodes) do
 		if MissingNodes[i].nodeID == id then
-			print("true")
 			return true
 		end
 	end
@@ -122,11 +102,10 @@ function ns:DBContains(id)
 end
 
 function ns:RefreshMap()
+
 	ns:ClearAllMarks()
 	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
-	callCounter = 0
-	print("missingNodes size: " .. #(MissingNodes))
-	ViragDevTool_AddData(MissingNodes, "MissingNodes")
+
 	if MissingNodes ~= nil then
 		for i=1,#(MissingNodes) do
 			ns:PlacePointOnWorldMap(MissingNodes[i])
@@ -135,7 +114,6 @@ function ns:RefreshMap()
 end
 
 function ns:ClearAllMarks()
-	--ViragDevTool_AddData(marks, "marks")
 	for i=1,#(marks) do
 		marks[i]:Hide()
 	end
@@ -178,14 +156,9 @@ function ns:PlacePointOnWorldMap(node)
 
 	
 	MFPGlobal.pins:AddWorldMapIconMap(self, pin, 1550, x, y)
-	callCounter = callCounter + 1
 	
 	marks[#(marks) + 1] = pin
 	pin:Show()
-	
-	--ViragDevTool_AddData(node.name, "node.name")
-	--ViragDevTool_AddData(x * f:GetWidth(), "x * f:GetWidth()")
-	--ViragDevTool_AddData(y * f:GetHeight(), "y * f:GetWidth()")
 
 end
 
