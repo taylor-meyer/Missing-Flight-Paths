@@ -118,9 +118,21 @@ else
 	KalMapID = 150744
 end
 
-function GetPlayerFaction()
+--- Returns player faction as a string, "Alliance" or "Horde".
+-- Pandaren on The Wandering Isle will return "Neutral".
+function ns:GetPlayerFaction()
 	local englishFaction = UnitFactionGroup("player")
 	return englishFaction
+end
+
+--- Returns ID of the Eastern Kingdoms map toy for appropriate faction.
+-- @param faction String of the players faction, "Alliance or "Horde". Use ns:GetPlayerFaction().
+function ns:GetEKMapID(faction)
+	if faction == "Alliance" then
+		return 150746
+	elseif faction == "Horde" then
+		return 150745
+	end
 end
 
 ns[6] = MapFrames
