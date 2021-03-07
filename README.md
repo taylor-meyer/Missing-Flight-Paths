@@ -29,3 +29,6 @@ Some less important flight points will not be saved to the database. These inclu
 
 ## Contact
 Please email me at lypidius@gmail.com to report a bug or give feedback. Screenshots help! You can also comment on either download page, or open an issue on GitHub.
+
+## Gallery
+![The Shadowlands map](/images/map_shadowlands.PNG)
