@@ -9,6 +9,7 @@ local EKMapID = nil
 local KalMapID = nil
 local MapFrames = {}
 
+
 local function MakeEKMapIcon(itemID)
 	local itemLink = C_ToyBox.GetToyLink(itemID)
 	
@@ -115,6 +116,11 @@ else
 	MakeKalimdorMapIcon(150744)
 	EKMapID = 150745
 	KalMapID = 150744
+end
+
+function GetPlayerFaction()
+	local englishFaction = UnitFactionGroup("player")
+	return englishFaction
 end
 
 ns[6] = MapFrames
