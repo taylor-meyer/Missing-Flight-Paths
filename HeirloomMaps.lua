@@ -135,4 +135,14 @@ function ns:GetEKMapID(faction)
 	end
 end
 
+--- Returns ID of the Kalimdor map toy for appropriate faction.
+-- @param faction String of the players faction, "Alliance or "Horde". Use ns:GetPlayerFaction().
+function ns:GetKaliMapID(faction)
+	if faction == "Alliance" then
+		return 150743
+	elseif faction == "Horde" then
+		return 150744
+	end
+end
+
 ns[6] = MapFrames
