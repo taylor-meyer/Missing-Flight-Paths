@@ -36,7 +36,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
 		if instanceID == 0 or instanceID == 1 then
-			ns:ShowHeirloomMaps(FlightMapFrame)
+			ns:ShowMapButtonForCurrentContinent()
 		end
 		
 		if instanceID == 1643 then -- Kul Tiras

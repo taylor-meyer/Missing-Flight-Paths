@@ -3,35 +3,12 @@
 --------------------
 -- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
-local addon, ns = ... -- Addon name & common namespace
 
-function ns:ShowHeirloomMaps(frameType)
-	if frameType == TaxiFrame then
-		MapFrames[1]:SetPoint("BOTTOM", frameType, "TOP", -15, 5)
-	else
-		MapFrames[1]:SetPoint("BOTTOM", frameType, "TOP", -15, 5)
-	end
-	
-	if PlayerHasToy(EKMapID) == false then
-		MapFrames[1].texture:SetVertexColor(0.7, 0, 0, 1)
-	else
-		--MapFrames[1].texture:SetVertexColor(0, 0.7, 0, 1)
-	end
-	
-	if PlayerHasToy(KalMapID) == false then
-		MapFrames[2].texture:SetVertexColor(0.7, 0, 0, 1)
-	else
-		--MapFrames[2].texture:SetVertexColor(0, 0.7, 0, 1)
-	end
-	
-	MapFrames[1]:Show()
-	MapFrames[2]:Show()
-end
+-- Addon name & common namespace
+local addon, ns = ...
 
-function ns:HideHeirloomMaps()
-	MapFrames[1]:Hide()
-	MapFrames[2]:Hide()
-end
+local EKMapToyID = 0
+local KaliMapToyID = 0
 
 --- Returns player faction as a string, "Alliance" or "Horde".
 -- Pandaren on The Wandering Isle will return "Neutral".
@@ -127,3 +104,21 @@ local function MakeKalimdorMapIcon(toyID)
 
 	ns.KaliMapButton = f
 end
+
+--- Shows map toy button appropriate for either the Eastern Kingdoms or Kalimdor when player talks to a flight master.
+-- If player does not have the toy for that continent, it is not shown.
+function ns:ShowMapButtonForCurrentContinent()
+	local instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
+	
+	if instanceID == 0 and PlayerHasToy(GetEKMapID(GetPlayerFaction())) then
+		ns.KaliMapButton:Hide()
+		ns.EKMapButton:SetPoint("BOTTOM", FlightMapFrame, "TOP", -15, 5)
+		ns.EKMapButton:Show()
+	else if instanceID == 1 and PlayerHasToy(GetKaliMapID(GetPlayerFaction()))
+		ns.EKMapButton:Hide()
+		ns.KalMapButton:SetPoint("BOTTOM", FlightMapFrame, "TOP", -15, 5)
+		ns.KalMapButton:Show()
+	end
+end
+
+
