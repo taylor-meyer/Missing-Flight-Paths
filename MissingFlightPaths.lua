@@ -35,11 +35,7 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		ClearAllMarks()
 		local _, _, _, _, _, _, _, instanceID, _, _ = GetInstanceInfo()
 		
-
-		
-		if PlayerInPandaria(instanceID) == true then
-			ns:ShowHeirloomMaps(TaxiFrame)
-		else
+		if instanceID == 0 or instanceID == 1 then
 			ns:ShowHeirloomMaps(FlightMapFrame)
 		end
 		
