@@ -61,10 +61,6 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		else
 			PlaceNonSpecialNodes()
 		end
-
-	elseif event == "TAXIMAP_CLOSED" then
-	
-		ns:HideHeirloomMaps()
 	
 	end
 end)
