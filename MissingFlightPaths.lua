@@ -61,7 +61,10 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		else
 			PlaceNonSpecialNodes()
 		end
-	
+	end
+	if event == "TAXIMAP_CLOSED" then
+		ns.EKMapButton:Hide()
+		ns.KaliMapButton:Hide()
 	end
 end)
 

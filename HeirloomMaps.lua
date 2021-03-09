@@ -7,9 +7,6 @@
 -- Addon name & common namespace
 local addon, ns = ...
 
-local EKMapToyID = 0
-local KaliMapToyID = 0
-
 --- Returns player faction as a string, "Alliance" or "Horde".
 -- Pandaren on The Wandering Isle will return "Neutral".
 function ns:GetPlayerFaction()
@@ -100,7 +97,7 @@ function ns:MakeKaliMapButton(toyID)
 
 	-- Secure button click to use toy
 	f:SetAttribute("type", "toy")
-	f:SetAttribute("toy", itemID)
+	f:SetAttribute("toy", toyID)
 
 	ns.KaliMapButton = f
 end
