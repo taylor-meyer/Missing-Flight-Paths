@@ -1,7 +1,8 @@
 # Changelog
 
-## v1.3.1
+## v1.3.2
 * Buttons for quick use of account-bound map toys now only appear when talking to a flight master on Eastern Kingdoms or Kalimdor
+* Major code cleanup
 
 ## v1.3
 * Added missing nodes to world map. Players need to talk to flight master once for database of missing nodes to update. Pins will show up on the continent view of any particular landmass
