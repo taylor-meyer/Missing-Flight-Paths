@@ -10,7 +10,7 @@ libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\HereBeDragons\HereBeDragons-2.0.lua
 libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
-WorldMap.lua
-SpecialNodes.lua
-HeirloomMaps.lua
+MFP_WorldMap.lua
+MFP_SpecialNodes.lua
+MFP_HeirloomMaps.lua
 MissingFlightPaths.lua
