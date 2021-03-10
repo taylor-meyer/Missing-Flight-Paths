@@ -24,7 +24,6 @@ Some less important flight points will not be saved to the database. These inclu
 * Flight points marked as missing on your world map for Pandaria and Draenor are skewed a bit from their actual location. I suspect this is because the taxi frames from where those coordinates are are different and are sized differently then the type of frame used in every other continent. Checking the flight point's name by mouse over will indicate to you where to go to unlock it.
 
 ## Future
-* Will remove account bound map buttons from showing if the player is not located on the appropriate continent.
 * Missing flight points will be appropriately shown on the zone map, in addition to the continent map.
 
 ## Contact
