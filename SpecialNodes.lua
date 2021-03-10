@@ -3,8 +3,10 @@
 --------------------
 -- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
+
 local addon, ns = ... -- Addon name & common namespace
 
+--- The Kul Tiras ferry node names and x&y coordinates.
 local KulTirasFerryNodes = {
 	{
 		name = "Anglepoint Wharf, Tiragarde Sound",
@@ -53,6 +55,7 @@ local KulTirasFerryNodes = {
 	}
 }
 
+--- NPCs that operate the Kul Tiras ferries for Alliance players.
 local TiragardeSoundNPCs = {
 	"Rosha Carrol",
 	"Will Melborne",
@@ -64,6 +67,7 @@ local TiragardeSoundNPCs = {
 	"Bindy Bracklesprig"
 }
 
+-- Nodes that are for Vashj'ir travel.
 local UnderwaterVashjirNodes = {
 	{
 		name = "Smuggler's Scar, Vashj'ir",
@@ -117,8 +121,10 @@ local UnderwaterVashjirNodes = {
 	}
 }
 
+--- Nodes we want  to ignore in this addon.
 -- We ignore flight points that are gone in present time
 -- (Teldrassil, N'zoth Invasions, etc.)
+-- Also ignore some broken nodes and nodes hidden to player normally.
 local InvalidNames = {
 	-- Have been destroyed or otherwise removed
 	"Grove of the Ancients, Darkshore",
@@ -145,24 +151,7 @@ local InvalidNames = {
 	"[Hidden] 9.0 Bastion Ground Hub (Sanctum TP out to here, TP to ground from here)"
 }
 
--- These zones use a different frame
--- "TaxiFrame"
-local TaxiFrameIDs = {
-	870, -- Pandaria
-	1064, -- Isle of Thunder
-	1116, -- Draenor
-	1191, -- Ashran
-	1464, -- Tanaan Jungle
-	1152, -- Horde Garrison lv1
-	1330, -- Horde Garrison lv2
-	1153, -- Horde Garrison lv3
-	1158, -- Alliance Garrison lv1
-	1331, -- Alliance Garrison lv2
-	1159  -- Alliance Garrison lv3
-}
-
 ns[1] = KulTirasFerryNodes
 ns[2] = TiragardeSoundNPCs
 ns[3] = UnderwaterVashjirNodes
 ns[4] = InvalidNames
-ns[5] = TaxiFrameIDs

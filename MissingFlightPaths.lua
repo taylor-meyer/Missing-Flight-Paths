@@ -292,5 +292,3 @@ function ns:RemoveUnderwaterNodes(taxiNodes)
 	end
 	return filteredNodes
 end
-
-

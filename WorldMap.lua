@@ -17,8 +17,8 @@ CreateFrame("Frame", "savedvariableframe", UIParent)
 savedvariableframe:RegisterEvent("ADDON_LOADED")
 savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and arg1 == "MissingFlightPaths" then
-		if MissingNodes == nil then
-            MissingNodes = {}
+		if MFP_MissingNodes == nil then
+            MFP_MissingNodes = {}
         end
 	end
 end)
@@ -52,7 +52,7 @@ end)
 -- @param instanceID The instanceID of player's location.
 function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
-	MissingNodes[instanceID] = {}
+	MFP_MissingNodes[instanceID] = {}
 	local nodes = {}
 		for i=1,#(taxiNodes) do
 			if taxiNodes[i].state == 2 and
@@ -66,7 +66,7 @@ function ns:SaveMissingNodes(instanceID)
 				nodes[#(nodes) + 1] = node
 			end
 		end
-	MissingNodes[instanceID] = nodes
+	MFP_MissingNodes[instanceID] = nodes
 end
 
 --- Returns x and y coordinate of flight point.
@@ -104,44 +104,44 @@ function ns:RefreshMap()
 
 	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
 	
-	if MissingNodes[0] ~= nil then
-		ns:PlacePointsOnWorldMap(13, MissingNodes[0])
+	if MFP_MissingNodes[0] ~= nil then
+		ns:PlacePointsOnWorldMap(13, MFP_MissingNodes[0])
 	end
 	
-	if MissingNodes[1] ~= nil then
-		ns:PlacePointsOnWorldMap(12, MissingNodes[1])
+	if MFP_MissingNodes[1] ~= nil then
+		ns:PlacePointsOnWorldMap(12, MFP_MissingNodes[1])
 	end
 	
-	if MissingNodes[530] ~= nil then
-		ns:PlacePointsOnWorldMap(101, MissingNodes[530])
+	if MFP_MissingNodes[530] ~= nil then
+		ns:PlacePointsOnWorldMap(101, MFP_MissingNodes[530])
 	end
 	
-	if MissingNodes[571] ~= nil then
-		ns:PlacePointsOnWorldMap(113, MissingNodes[571])
+	if MFP_MissingNodes[571] ~= nil then
+		ns:PlacePointsOnWorldMap(113, MFP_MissingNodes[571])
 	end
 	
-	if MissingNodes[870] ~= nil then
-		ns:PlacePointsOnWorldMap(424, MissingNodes[870])
+	if MFP_MissingNodes[870] ~= nil then
+		ns:PlacePointsOnWorldMap(424, MFP_MissingNodes[870])
 	end
 	
-	if MissingNodes[1116] ~= nil then
-		ns:PlacePointsOnWorldMap(572, MissingNodes[1116])
+	if MFP_MissingNodes[1116] ~= nil then
+		ns:PlacePointsOnWorldMap(572, MFP_MissingNodes[1116])
 	end
 	
-	if MissingNodes[1220] ~= nil then
-		ns:PlacePointsOnWorldMap(619, MissingNodes[1220])
+	if MFP_MissingNodes[1220] ~= nil then
+		ns:PlacePointsOnWorldMap(619, MFP_MissingNodes[1220])
 	end
 	
-	if MissingNodes[1642] ~= nil then
-		ns:PlacePointsOnWorldMap(875, MissingNodes[1642])
+	if MFP_MissingNodes[1642] ~= nil then
+		ns:PlacePointsOnWorldMap(875, MFP_MissingNodes[1642])
 	end
 	
-	if MissingNodes[1643] ~= nil then
-		ns:PlacePointsOnWorldMap(876, MissingNodes[1643])
+	if MFP_MissingNodes[1643] ~= nil then
+		ns:PlacePointsOnWorldMap(876, MFP_MissingNodes[1643])
 	end
 	
-	if MissingNodes[2222] ~= nil then
-		ns:PlacePointsOnWorldMap(1550, MissingNodes[2222])
+	if MFP_MissingNodes[2222] ~= nil then
+		ns:PlacePointsOnWorldMap(1550, MFP_MissingNodes[2222])
 	end
 
 end
@@ -186,4 +186,3 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 		end
 	end
 end
-
