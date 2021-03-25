@@ -61,7 +61,7 @@ function ns:GetValidNodes()
 	
 	for i=1,#(taxiNodes) do
 		if taxiNodes[i].state == 2 and taxiNodes[i].textureKit == nil and
-		ns:IsIgnoredNode(name) == false then
+		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 then
 		   
 			local X,Y = ns:FindXYPos(taxiNodes[i].name)
 			local node = {
@@ -220,9 +220,9 @@ end
 --- Checks list of ignored nodes against param, returns true if there is a match.
 -- @param name The name of the node being checked.
 function ns:IsIgnoredNode(name)
-	local tabl = ns[4]
-	for i=1,#(tabl) do
-		if tabl[i] == name then
+	local IgnoredNodes = ns[4]
+	for i=1,#(IgnoredNodes) do
+		if IgnoredNodes[i] == name then
 			return true
 		end
 	end

@@ -144,6 +144,7 @@ local InvalidNames = {
 	-- These seem broken by always showing as missing
 	"Atal'Gral, Zuldazar",
 	"Devoted Sanctuary, Vol'dun",
+	"Temple of Karabor, Shadowmoon Valley",
 	-- Only useable by Kyrian players
 	"Elysian Hold, Bastion",
 	-- Bastion flight paths normally hidden from players
