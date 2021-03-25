@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.3.3
+* Ignore node named "Temple of Karabor, Shadowmoon Valley" as it appears to be unused and always appears as missing.
+
 ## v1.3.2
 * Update to work with patch 9.0.5
 * Buttons for quick use of account-bound map toys now only appear when talking to a flight master on Eastern Kingdoms or Kalimdor
