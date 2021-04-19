@@ -27,6 +27,16 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		ns:GetValidNodes()
+		
+		if ns:TargetIsFerryMaster() == false and
+		   ns:TargetIsSeahorse() == false and
+		   ns:IsKyrianTransportNode() == false then
+			local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()		
+			ns:SaveMissingNodes(instanceID)
+		end
+		
+		
+		
 	end
 	
 	-- Hide map toys when frame is closed, otherwise they persist.

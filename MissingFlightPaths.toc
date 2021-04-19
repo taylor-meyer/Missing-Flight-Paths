@@ -2,7 +2,7 @@
 ## Title: Missing Flight Paths
 ## Notes: Shows missing flight points as green exclamation marks on both the world map & flight map.
 ## Author: Lypidius
-## Version: 1.3.3
+## Version: 1.3.4
 ## DefaultState: enabled
 ## SavedVariablesPerCharacter: MFP_MissingNodes
 

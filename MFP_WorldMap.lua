@@ -23,20 +23,6 @@ savedvariableframe:SetScript("OnEvent", function(self, event, arg1)
 	end
 end)
 
---- Event frame that refreshes list of missing flight points for current instanceID when player talks to the flight master.
--- Note: First confirms that target is not a Kul Tiras ferry master.
-CreateFrame("Frame", "refreshdbframe", UIParent)
-refreshdbframe:RegisterEvent("TAXIMAP_OPENED")
-refreshdbframe:SetScript("OnEvent", function(self, event, ...)
-	if event == "TAXIMAP_OPENED" then
-		if ns:TargetIsFerryMaster() == false and
-		   ns:TargetIsSeahorse() == false then
-			local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()		
-			ns:SaveMissingNodes(instanceID)
-		end
-	end
-end)
-
 --- Event frame that refreshes pins on the world map.
 CreateFrame("Frame", "mapupdateframe", UIParent)
 mapupdateframe:RegisterEvent("QUEST_LOG_UPDATE")

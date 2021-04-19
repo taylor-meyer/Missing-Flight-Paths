@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.3.4
+* Using Kyrian transport network no longer marks all Shadowlands flight paths as missing.
+
 ## v1.3.3
 * Ignore node named "Temple of Karabor, Shadowmoon Valley" as it appears to be unused and always appears as missing.
 
