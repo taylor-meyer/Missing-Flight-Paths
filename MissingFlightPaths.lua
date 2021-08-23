@@ -79,8 +79,8 @@ function ns:GetValidNodes()
 	
 	for i=1,#(taxiNodes) do
 		if taxiNodes[i].state == 2 and taxiNodes[i].textureKit == nil and
-		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 and taxiNodes[i].nodeID ~= 2703 then
-		   
+		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 and taxiNodes[i].nodeID ~= 2703 and
+		taxiNodes[i].name ~= "Elysian Hold, Bastion" then
 			local X,Y = ns:FindXYPos(taxiNodes[i].name)
 			local node = {
 				name = taxiNodes[i].name,
