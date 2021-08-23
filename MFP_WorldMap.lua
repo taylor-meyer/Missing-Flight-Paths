@@ -38,6 +38,13 @@ end)
 -- @param instanceID The instanceID of player's location.
 function ns:SaveMissingNodes(instanceID)
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	-- This conditional is temporary and will be reworked soon.
+	-- Used to stop if player is in the Maw
+	for i=1,#(taxiNodes) do
+		if taxiNodes[i].state == 0 and (taxiNodes[i].nodeID == 2700 or taxiNodes[i].nodeID == 2698) then
+			return
+		end
+	end
 	MFP_MissingNodes[instanceID] = {}
 	local nodes = {}
 		for i=1,#(taxiNodes) do

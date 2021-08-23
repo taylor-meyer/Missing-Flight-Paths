@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.5
+* Update to work with patch 9.1.0
+* Using the Animaflow Teleporters in the Maw/Korthia will no longer mark all of the Shadowlands flight points as missing.
+
 ## v1.3.4
 * Using Kyrian transport network no longer marks all Shadowlands flight paths as missing.
 

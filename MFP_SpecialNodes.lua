@@ -149,7 +149,18 @@ local InvalidNames = {
 	"Elysian Hold, Bastion",
 	-- Bastion flight paths normally hidden from players
 	"[Hidden] 9.0 Bastion Ground Points Hub (Ground TP out to here, TP to Sanctum from here)",
-	"[Hidden] 9.0 Bastion Ground Hub (Sanctum TP out to here, TP to ground from here)"
+	"[Hidden] 9.0 Bastion Ground Hub (Sanctum TP out to here, TP to ground from here)",
+	-- Shadowlands
+	-- 2700
+	"Ve'nari's Refuge",
+	--"Oribos", -- 2395
+	-- 2698
+	"Keeper's Respite"
+}
+
+ns.mawIDs = {
+	2700,
+	2698
 }
 
 ns[1] = KulTirasFerryNodes
