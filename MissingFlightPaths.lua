@@ -35,8 +35,6 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 			ns:SaveMissingNodes(instanceID)
 		end
 		
-		
-		
 	end
 	
 	-- Hide map toys when frame is closed, otherwise they persist.
@@ -67,11 +65,21 @@ function ns:GetValidNodes()
 		return
 	end
 
+
 	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	
+	-- This conditional is temporary and will be reworked soon.
+	-- Used to stop if player is in the Maw
+	for i=1,#(taxiNodes) do
+		if taxiNodes[i].state == 0 and (taxiNodes[i].nodeID == 2700 or taxiNodes[i].nodeID == 2698) then
+			return
+		end
+	end
+	
 	
 	for i=1,#(taxiNodes) do
 		if taxiNodes[i].state == 2 and taxiNodes[i].textureKit == nil and
-		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 then
+		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 and taxiNodes[i].nodeID ~= 2703 then
 		   
 			local X,Y = ns:FindXYPos(taxiNodes[i].name)
 			local node = {
