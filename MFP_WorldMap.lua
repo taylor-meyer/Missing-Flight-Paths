@@ -7,6 +7,9 @@
 -- Addon name & common namespace
 local addon, ns = ...
 
+dev_pin_count = 0
+dev_current_pins = {}
+
 -- libs
 MFPGlobal = { }
 MFPGlobal.hbd = LibStub("HereBeDragons-2.0")
@@ -95,7 +98,7 @@ end
 -- Draenor/Pandaria locations are skewed because the way their flight master taxi map is built is different.
 function ns:RefreshMap()
 
-	MFPGlobal.pins:RemoveAllWorldMapIcons(self)
+	--MFPGlobal.pins:RemoveAllWorldMapIcons(self)
 	
 	if MFP_MissingNodes[0] ~= nil then
 		ns:PlacePointsOnWorldMap(13, MFP_MissingNodes[0])
@@ -137,6 +140,8 @@ function ns:RefreshMap()
 		ns:PlacePointsOnWorldMap(1550, MFP_MissingNodes[2222])
 	end
 
+	--ns:printSet(dev_current_pins)
+	--print(ns:tablelength(dev_current_pins))
 end
 
 --- Creates the pin, sets its attributes, and places it on the map.
@@ -147,11 +152,20 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 
 	for i=1,#(nodes) do
 		local node = nodes[i]
+		
+		if ns:setContains(dev_current_pins, node.name) == false then
 			if ns:IsIgnoredNode(node.name) == false and
 			   ns:IsUnderwaterNode(node.name, node.x, node.y) == false and
 			   ns:IsFerryNode(node.x,node.y) == false then
 			
 				local pin = CreateFrame("Frame", "MFPWorldMapPin_" .. node.name, nil)
+				
+				--dev
+				dev_pin_count = dev_pin_count + 1
+				--print("|cffff6060Pin placed for: " .. node.name .. "!|r |cff00ccff" .. dev_pin_count)
+				ns:addToSet(dev_current_pins, node.name)
+				--ns:printSet(dev_current_pins)
+				
 				pin:SetWidth(16)
 				pin:SetHeight(16)
 			
@@ -175,7 +189,35 @@ function ns:PlacePointsOnWorldMap(UiMapID, nodes)
 				MFPGlobal.pins:AddWorldMapIconMap(self, pin, UiMapID, node.x, node.y)
 				
 				pin:Show()
-				
+			end
 		end
 	end
 end
+
+function ns:setContains(set, key)
+    return set[key] ~= nil
+end
+
+function ns:addToSet(set, key)
+    set[key] = true
+end
+
+function ns:removeFromSet(set, key)
+    set[key] = nil
+end
+
+function ns:printSet(set)
+	for key,value in pairs(set) do
+	   print("     |cff00ffff" .. key, value)
+	end
+end
+
+function ns:tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
+
+
+

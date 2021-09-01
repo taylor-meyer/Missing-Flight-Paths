@@ -1,14 +1,17 @@
 # Changelog
 
+## v1.3.6
+* Stopped excess creation of frames on the world map when player opens the map
+
 ## v1.3.5
 * Update to work with patch 9.1.0
-* Using the Animaflow Teleporters in the Maw/Korthia will no longer mark all of the Shadowlands flight points as missing.
+* Using the Animaflow Teleporters in the Maw/Korthia will no longer mark all of the Shadowlands flight points as missing
 
 ## v1.3.4
-* Using Kyrian transport network no longer marks all Shadowlands flight paths as missing.
+* Using Kyrian transport network no longer marks all Shadowlands flight paths as missing
 
 ## v1.3.3
-* Ignore node named "Temple of Karabor, Shadowmoon Valley" as it appears to be unused and always appears as missing.
+* Ignore node named "Temple of Karabor, Shadowmoon Valley" as it appears to be unused and always appears as missing
 
 ## v1.3.2
 * Update to work with patch 9.0.5
