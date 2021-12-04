@@ -1,4 +1,7 @@
 # Changelog
+## v1.3.7
+* Update to work with patch 9.1.5
+* Fixed bug where a Pandaren's faction being set to neutral caused a crash when trying to determine the correct scouting map for use with quick use button.
 
 ## v1.3.6
 * Stopped excess creation of frames on the world map when player opens the map

@@ -10,8 +10,8 @@ local addon, ns = ...
 --- Returns player faction as a string, "Alliance" or "Horde".
 -- Pandaren on The Wandering Isle will return "Neutral".
 function ns:GetPlayerFaction()
-	local englishFaction = UnitFactionGroup("player")
-	return englishFaction
+	print("Player faction is: " .. UnitFactionGroup("player"))
+	return UnitFactionGroup("player")
 end
 
 --- Returns ID of the Eastern Kingdoms map toy for appropriate faction.
@@ -37,6 +37,7 @@ end
 --- Creates secure button frame that can use Easter Kingdoms map toy when pressed.
 -- @param toyID The ID of the Eastern Kingdoms toy for appropriate player faction. Use ns:GetEKMapID(faction).
 function ns:MakeEKMapButton(toyID)
+	
 	local itemLink = C_ToyBox.GetToyLink(toyID)
 	
 	-- Create frame
@@ -71,6 +72,7 @@ end
 --- Creates secure button frame that can use Kalimdor map toy when pressed.
 -- @param toyID The ID of the Kalimdor toy for appropriate player faction. Use ns:GetKaliMapID(faction).
 function ns:MakeKaliMapButton(toyID)
+	
 	local itemLink = C_ToyBox.GetToyLink(toyID)
 	
 	-- Create frame
@@ -118,5 +120,7 @@ function ns:ShowMapButtonForCurrentContinent()
 	end
 end
 
-ns:MakeEKMapButton(ns:GetEKMapID(ns:GetPlayerFaction()))
-ns:MakeKaliMapButton(ns:GetKaliMapID(ns:GetPlayerFaction()))
+if ns:GetPlayerFaction() ~= "Neutral" then
+	ns:MakeEKMapButton(ns:GetEKMapID(ns:GetPlayerFaction()))
+	ns:MakeKaliMapButton(ns:GetKaliMapID(ns:GetPlayerFaction()))
+end
