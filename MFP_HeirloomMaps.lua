@@ -10,7 +10,6 @@ local addon, ns = ...
 --- Returns player faction as a string, "Alliance" or "Horde".
 -- Pandaren on The Wandering Isle will return "Neutral".
 function ns:GetPlayerFaction()
-	print("Player faction is: " .. UnitFactionGroup("player"))
 	return UnitFactionGroup("player")
 end
 

@@ -1,6 +1,9 @@
 # Changelog
+## v1.3.8
+* Removed leftover print statements used for tests
+
 ## v1.3.7
-* Update to work with patch 9.1.5
+* Updated to work with patch 9.1.5
 * Fixed bug where a Pandaren's faction being set to neutral caused a crash when trying to determine the correct scouting map for use with quick use button.
 
 ## v1.3.6
