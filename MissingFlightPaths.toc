@@ -12,5 +12,5 @@ libs\HereBeDragons\HereBeDragons-2.0.lua
 libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 MFP_WorldMap.lua
 MFP_SpecialNodes.lua
-MFP_HeirloomMaps.lua
+MFP_ScoutingMaps.lua
 MissingFlightPaths.lua
