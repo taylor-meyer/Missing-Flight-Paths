@@ -45,6 +45,8 @@ ns:CreateMapButton("AllianceEasternKingdoms", 0, 150746)
 ns:CreateMapButton("AllianceKalimdor", 1, 150743)
 ns:CreateMapButton("HordeEasternKingdoms", 2, 150745)
 ns:CreateMapButton("HordeKalimdor", 3, 150744)
+ns:CreateMapButton("TheBurningCrusade", 530, 187899)
+ns:CreateMapButton("WrathOfTheLichKing", 571, 187898)
 ns:CreateMapButton("Cataclysm", 646, 187897)
 ns:CreateMapButton("MistsOfPandaria", 870, 187896)
 ns:CreateMapButton("WarlordsOfDraenor", 1116, 187895)
@@ -58,14 +60,16 @@ MFP_MapHideShowFrame:RegisterEvent("TAXIMAP_OPENED")
 MFP_MapHideShowFrame:RegisterEvent("TAXIMAP_CLOSED")
 MFP_MapHideShowFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
-		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
-		local player_faction = UnitFactionGroup("player")
-		local button = nil
 
+		local player_faction = UnitFactionGroup("player")
 		if player_faction == "Neutral" then
-			print("Neutral faction, breaking.")
+			--print("Neutral faction, breaking.")
 			return
 		end
+
+		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
+		
+		local button = nil
 
 		--print("instanceID: " .. tostring(instanceID))
 		if instanceID == 0 and player_faction == 'Alliance' then
