@@ -10,6 +10,8 @@ local addon, ns = ...
 -- Table of placed pins
 local TaxiMapPins = {}
 
+local DEBUG_MODE = True
+
 --- Event frame for opening and closing the taxi map.
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
 TaxiOpenEventFrame:RegisterEvent("TAXIMAP_OPENED")
@@ -39,8 +41,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	
 	-- Hide map toys when frame is closed, otherwise they persist.
 	if event == "TAXIMAP_CLOSED" then
-		ns.EKMapButton:Hide()
-		ns.KaliMapButton:Hide()
+		--ns.EKMapButton:Hide()
+		--ns.KaliMapButton:Hide()
 	end
 end)
 
@@ -78,7 +80,17 @@ function ns:GetValidNodes()
 	
 	
 	for i=1,#(taxiNodes) do
-		if taxiNodes[i].state == 2 and taxiNodes[i].textureKit == nil and
+
+		if(DEBUG_MODE) then
+			local X,Y = ns:FindXYPos(taxiNodes[i].name)
+			local node = {
+				name = taxiNodes[i].name,
+				x = X,
+				y = Y
+			}
+			ns:PlacePinOnFlightMap(node)
+			
+		elseif taxiNodes[i].state == 2 and taxiNodes[i].textureKit == nil and
 		ns:IsIgnoredNode(name) == false and taxiNodes[i].nodeID ~= 1567 and taxiNodes[i].nodeID ~= 2703 and
 		taxiNodes[i].name ~= "Elysian Hold, Bastion" then
 			local X,Y = ns:FindXYPos(taxiNodes[i].name)
