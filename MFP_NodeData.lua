@@ -1,10 +1,34 @@
 ------------------------------------------------------------------------------------------
--- Special Nodes --
+-- Node Data --
 --------------------
 -- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
 
 local addon, ns = ... -- Addon name & common namespace
+
+-- Ignored Nodes
+ns["badnodes"] = {
+	-- Broken or unused at max level
+	-- Possibly used while leveling/questing
+	2066, -- Atal'Gral, Zuldazar
+	2071, -- Dreadpearl, Zuldazar
+	2162, -- Devoted Sanctuary, Vol'dun (This one might be for Alliance characters)
+
+	-- For Kyrian players only, and they will automatically have it
+	2528,-- Elysian Hold, Bastion
+
+	-- The Maw
+	2698, -- Keeper's Respite, Korthia
+	2700, -- Ve'nari's Refuge, The Maw
+
+	-- Dragonflight, Ancient Waygates
+	2836,
+	2837,
+	2838,
+	2839,
+	2841,
+	2842
+}
 
 --- The Kul Tiras ferry node names and x&y coordinates.
 local KulTirasFerryNodes = {
@@ -158,10 +182,6 @@ local InvalidNames = {
 	"Keeper's Respite"
 }
 
-ns.mawIDs = {
-	2700,
-	2698
-}
 
 ns[1] = KulTirasFerryNodes
 ns[2] = TiragardeSoundNPCs
