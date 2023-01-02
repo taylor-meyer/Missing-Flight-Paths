@@ -9,10 +9,12 @@ local addon, ns = ...
 
 -- Debug mode to view all nodes in ViragDevTool
 local DEBUG_MODE = true -- Needs ViragDevTool installed
+local SHOW_ALL_NODES = false
 
 -- Create 50 frames to reuse for pins
 local emptyFramesCreated = false
 local FlightMapPinFrames = {}
+local PIN_MAX = 60
 
 --- Event frame for opening and closing the taxi map.
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -36,8 +38,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 function ns:PinFlightMap()
-	-- currentNode, unlockedNodes{}, lockedNodes{}
-	local c, u, l = ns:GetNodes()
+	-- currentNode, unlockedNodes{}, lockedNodes{}, allNodes{}
+	local c, u, l, a = ns:GetNodes()
 
 	if DEBUG_MODE then
 		ViragDevTool_AddData(c, "c")
@@ -70,9 +72,18 @@ function ns:PinFlightMap()
 
 	-- Save filtered locked nodes to SavedVariable using HBD InstanceIDOverrides
 	MFP_LockedNodes[ns:GetInstanceID()] = l
+	
+	local nodesToPlace = nil
+	if SHOW_ALL_NODES == true then
+		nodesToPlace = a
+		if DEBUG_MODE then print("MFP: Showing all nodes.") end
+	else
+		nodesToPlace = l
+		if DEBUG_MODE then print("MFP: Showing locked nodes.") end
+	end
 
 	-- Show locked nodes on flight map
-	for i,v in pairs(l) do
+	for i,v in pairs(nodesToPlace) do
 		if DEBUG_MODE then print("i: " .. i .. "       v: " .. v.name) end
 
 		local pin = FlightMapPinFrames[i]
@@ -106,7 +117,7 @@ function ns:GetNodes()
 			table.insert(lockedNodes, v)
 		end
 	end
-	return currentNode, unlockedNodes, lockedNodes
+	return currentNode, unlockedNodes, lockedNodes, taxiNodes
 end
 
 function ns:HidePlacedPins()
@@ -115,7 +126,7 @@ end
 
 function ns:CreateEmptyPinFrames()
 	local f = FlightMapFrame.ScrollContainer.Child
-	for i=1,50 do
+	for i=1,PIN_MAX do
 		local pin = CreateFrame("Frame", "MFPPin_" .. tostring(i), f)
 
 		pin:SetWidth(75)
