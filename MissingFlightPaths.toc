@@ -13,4 +13,5 @@ libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
 MFP_NodeData.lua
 MFP_Helpers.lua
+MFP_ScoutingMaps.lua
 MissingFlightPaths.lua

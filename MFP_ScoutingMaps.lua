@@ -7,118 +7,127 @@
 -- Addon name & common namespace
 local addon, ns = ...
 
-function ns:CreateMapButton(ExpansionName, instanceID, toyID)
+ns.ButtonFrames = {}
 
-	local f = CreateFrame("Button", "MFP_" .. ExpansionName .. "MapButton", UIParent, "SecureActionButtonTemplate")
-	f:SetSize(50,50)
+-- Table of scouting maps within the toybox.
+-- [instanceID] -> [toyName], [toyID]
+ns["scoutingMaps"] = {
+	[0] = {
+		["toyName"] = "Scouting Map: Modern Provisioning of the Eastern Kingdoms",
+		["toyID"] = 150746
+	},
+	[1] = {
+		["toyName"] = "Scouting Map: Surviving Kalimdor",
+		["toyID"] = 150743
+	},
+	[2] = {
+		["toyName"] = "Scouting Map: The Eastern Kingdoms Campaign",
+		["toyID"] = 150745
+	},
+	[3] = {
+		["toyName"] = "Scouting Map: Walking Kalimdor with the Earthmother",
+		["toyID"] = 150744
+	},
+	[530] = {
+		["toyName"] = "Scouting Map: The Many Curiosities of Outland",
+		["toyID"] = 187899
+	},
+	[571] = {
+		["toyName"] = "Scouting Map: True Cost of the Northrend Campaign",
+		["toyID"] = 187898
+	},
+	[646] = {
+		["toyName"] = "Scouting Map: Cataclysm's Consequences",
+		["toyID"] = 187897
+	},
+	[870] = {
+		["toyName"] = "Scouting Map: A Stormstout's Guide to Pandaria",
+		["toyID"] = 187896
+	},
+	[1116] = {
+		["toyName"] = "Scouting Map: The Dangers of Draenor",
+		["toyID"] = 187895
+	},
+	[1220] = {
+		["toyName"] = "Scouting Map: United Fronts of the Broken Isles",
+		["toyID"] = 187875
+	},
+	[1642] = {
+		["toyName"] = "Scouting Map: The Wonders of Kul Tiras and Zandalar",
+		["toyID"] = 187900
+	},
+	[2222] = {
+		["toyName"] = "Scouting Map: Into the Shadowlands]",
+		["toyID"] = 187869
+	}
+}
 
-	f.texture = f:CreateTexture()
-	f.texture:SetTexture(GetItemIcon(toyID))
-	f.texture:SetAllPoints(f)
+function ns:CreateButtonFrames()
+	for k,v in pairs(ns["scoutingMaps"]) do
+		local f = CreateFrame("Button", "MFP_Button_" .. v["toyName"], UIParent, "SecureActionButtonTemplate")
+		f:RegisterForClicks("AnyUp", "AnyDown")
+		f:SetSize(50,50)
 
-	f:HookScript("OnEnter", function()
-		if (C_ToyBox.GetToyLink(toyID)) then
-			GameTooltip:SetOwner(f, "ANCHOR_TOP")
-			GameTooltip:SetHyperlink(C_ToyBox.GetToyLink(toyID))
-			GameTooltip:Show()
-		end
-	end)
-	f:HookScript("OnLeave", function()
-		GameTooltip:Hide()
-	end)
+		f.texture = f:CreateTexture()
+		f.texture:SetTexture(GetItemIcon(v["toyID"]))
+		f.texture:SetAllPoints(f)
 
-	f:SetAttribute("type", "toy")
-	f:SetAttribute("toy", toyID)
+		f:HookScript("OnEnter", function()
+			if (C_ToyBox.GetToyLink(v["toyID"])) then
+				GameTooltip:SetOwner(f, "ANCHOR_TOP")
+				GameTooltip:SetHyperlink(C_ToyBox.GetToyLink(v["toyID"]))
+				GameTooltip:Show()
+			end
+		end)
+		f:HookScript("OnLeave", function()
+			GameTooltip:Hide()
+		end)
 
-	ns.MapButtonFrames[instanceID] = f
+		f:SetAttribute("type", "toy")
+		f:SetAttribute("toy", v["toyID"])
+
+		ns.ButtonFrames[k] = f
+	end
 end
 
 function ns:HideAllMaps()
-	for key,_ in pairs(ns.MapButtonFrames) do
-		ns.MapButtonFrames[key]:Hide()
+	for _,v in pairs(ns.ButtonFrames) do
+		v:Hide()
 	end
 end
 
-ns.MapButtonFrames = {}
-
-ns:CreateMapButton("AllianceEasternKingdoms", 0, 150746)
-ns:CreateMapButton("AllianceKalimdor", 1, 150743)
-ns:CreateMapButton("HordeEasternKingdoms", 2, 150745)
-ns:CreateMapButton("HordeKalimdor", 3, 150744)
-ns:CreateMapButton("TheBurningCrusade", 530, 187899)
-ns:CreateMapButton("WrathOfTheLichKing", 571, 187898)
-ns:CreateMapButton("Cataclysm", 646, 187897)
-ns:CreateMapButton("MistsOfPandaria", 870, 187896)
-ns:CreateMapButton("WarlordsOfDraenor", 1116, 187895)
-ns:CreateMapButton("Legion", 1220, 187875)
-ns:CreateMapButton("BattleForAzeroth", 1642, 187900)
-ns:CreateMapButton("Shadowlands", 2222, 187869)
-
--- Event frame
-CreateFrame("Frame", "MFP_MapHideShowFrame", UIParent)
-MFP_MapHideShowFrame:RegisterEvent("TAXIMAP_OPENED")
-MFP_MapHideShowFrame:RegisterEvent("TAXIMAP_CLOSED")
-MFP_MapHideShowFrame:SetScript("OnEvent", function(self, event, ...)
-	if event == "TAXIMAP_OPENED" then
-
-		local player_faction = UnitFactionGroup("player")
-		if player_faction == "Neutral" then
-			--print("Neutral faction, breaking.")
-			return
-		end
-
-		local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
-		
-		local button = nil
-
-		--print("instanceID: " .. tostring(instanceID))
-		if instanceID == 0 and player_faction == 'Alliance' then
-			--print("Alliance EK")
-			button = ns.MapButtonFrames[0]
-			local CataclysmButton = ns.MapButtonFrames[646]
-			CataclysmButton:SetPoint("LEFT", button, "RIGHT", 5, 0)
-			CataclysmButton:Show()
-		elseif instanceID == 1 and player_faction == 'Alliance' then
-			--print("Alliance Kalim")
-			button = ns.MapButtonFrames[1]
-			local CataclysmButton = ns.MapButtonFrames[646]
-			CataclysmButton:SetPoint("LEFT", button, "RIGHT", 5, 0)
-			CataclysmButton:Show()
-		elseif instanceID == 0 and player_faction == 'Horde' then
-			--print("Horde EK")
-			button = ns.MapButtonFrames[2]
-			local CataclysmButton = ns.MapButtonFrames[646]
-			CataclysmButton:SetPoint("LEFT", button, "RIGHT", 5, 0)
-			CataclysmButton:Show()
-		elseif instanceID == 1 and player_faction == 'Horde' then
-			--print("Horde Kalim")
-			button = ns.MapButtonFrames[3]
-			local CataclysmButton = ns.MapButtonFrames[646]
-			CataclysmButton:SetPoint("LEFT", button, "RIGHT", 5, 0)
-			CataclysmButton:Show()
-		elseif instanceID == 530 then
-			button = ns.MapButtonFrames[530]
-		elseif instanceID == 571 then
-			button = ns.MapButtonFrames[571]
-		elseif instanceID == 870 then
-			button = ns.MapButtonFrames[870]
-		elseif instanceID == 1116 then
-			button = ns.MapButtonFrames[1116]
-		elseif instanceID == 1220 then
-			button = ns.MapButtonFrames[1220]
-		elseif instanceID == 1642 or instanceID == 1643 or instanceID == 1718 then
-			button = ns.MapButtonFrames[1642]
-		elseif instanceID == 2222 then
-			button = ns.MapButtonFrames[2222]
-		end
-
-		if button ~= nil then
-			button:SetPoint("BOTTOM", FlightMapFrame, "TOP", -15, 5)
-			button:Show()
-		end
+function ns:ShowScoutingMapButton()
+	local player_faction = UnitFactionGroup("player")
+	if player_faction == "Neutral" then
+		print("Neutral faction, breaking.")
+		return
 	end
 
-	if event == "TAXIMAP_CLOSED" then
-		ns:HideAllMaps()
+	local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
+	
+	if ns.ButtonFrames[instanceID] == nil then return end
+	
+	-- If player in E(0), Kalimdor(1), or Cata zone(646)
+	-- we show Cataclysm button as well
+	-- button, cataclysmButton
+	local b, cb = nil, nil
+	
+	if instanceID <= 1 then
+		if player_faction == "Horde" then
+			b = ns.ButtonFrames[instanceID + 2]
+		else
+			b = ns.ButtonFrames[instanceID]
+		end
+		cb = ns.ButtonFrames[646]
+	else
+		b = ns.ButtonFrames[instanceID]
 	end
-end)
+
+
+	b:SetPoint("BOTTOM", FlightMapFrame, "TOP", -15, 5)
+	b:Show()
+	if cb ~= nil then
+		cb:SetPoint("LEFT", b, "RIGHT", 5, 0)
+		cb:Show()
+	end
+end

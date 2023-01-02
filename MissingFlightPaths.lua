@@ -8,7 +8,7 @@
 local addon, ns = ...
 
 -- Debug mode to view all nodes in ViragDevTool
-local DEBUG_MODE = true -- Needs ViragDevTool installed
+local DEBUG_MODE = false -- Needs ViragDevTool installed
 local SHOW_ALL_NODES = false
 
 -- Create 50 frames to reuse for pins
@@ -25,15 +25,17 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	-- Open actions
 	if event == "TAXIMAP_OPENED" then
 		-- Create frames for pins if they have not yet been created
-		if not emptyFramesCreated then ns:CreateEmptyPinFrames() end
+		if not emptyFramesCreated then ns:CreateEmptyPinFrames() ns:CreateButtonFrames() end
 		if DEBUG_MODE then print("HBD:GetPlayerWorldPosition(): " .. ns:GetInstanceID()) end
 
 		ns:PinFlightMap()
+		ns:ShowScoutingMapButton()
 	end
 
 	-- Close actions
 	if event == "TAXIMAP_CLOSED" then
 		ns:HidePlacedPins()
+		ns:HideAllMaps()
 	end
 end)
 
