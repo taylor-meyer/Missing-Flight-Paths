@@ -1,4 +1,8 @@
 # Changelog
+## v2.0.0
+* Complete rework under the hood
+* Updated for Dragonflight 10.1.0
+
 ## v1.3.8
 * Removed leftover print statements used for tests
 

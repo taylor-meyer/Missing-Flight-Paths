@@ -70,10 +70,17 @@ function ns:PinFlightMap()
 	-- either because they are broken or are not connected to the
 	-- normal flight network
 	ns:FilterBadNodes(l)
-	--if DEBUG_MODE then ViragDevTool_AddData(l, "l") end
+	if DEBUG_MODE then ViragDevTool_AddData(l, "l (filtered)") end
 
 	-- Save filtered locked nodes to SavedVariable using HBD InstanceIDOverrides
 	MFP_LockedNodes[ns:GetInstanceID()] = l
+	if DEBUG_MODE then ViragDevTool_AddData(ns:GetInstanceID(), "saving l (filtered) to instanceID") end
+	for i=1,#(MFP_LockedNodes[ns:GetInstanceID()]) do
+		local X,Y = ns:FindXYPos(MFP_LockedNodes[ns:GetInstanceID()][i].name)
+		MFP_LockedNodes[ns:GetInstanceID()][i].absoluteX = X
+		MFP_LockedNodes[ns:GetInstanceID()][i].absoluteY = Y
+		MFP_LockedNodes[ns:GetInstanceID()][i].UiMapID = ns["mapIDs"][ns:GetInstanceID()]
+	end
 	
 	local nodesToPlace = nil
 	if SHOW_ALL_NODES == true then

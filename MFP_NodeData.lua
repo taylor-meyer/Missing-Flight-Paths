@@ -55,7 +55,6 @@ ns["badnodes"] = {
 
 	-- Broken or unused at max level
 	-- Possibly used while leveling/questing
-	-- TODO: Determine if this for Alliance characters
 	2162, -- Devoted Sanctuary, Vol'dun
 
 	-- For Kyrian players only, and they will automatically have it
@@ -71,5 +70,13 @@ ns["badnodes"] = {
 	2838,
 	2839,
 	2841,
-	2842
+	2842,
+
+	-- Dragonflight, Zaralek Cavern transitions
+	2866,
+	2867,
+	2874,
+	2875,
+	2876,
+	2877
 }

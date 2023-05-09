@@ -57,7 +57,7 @@ ns["scoutingMaps"] = {
 		["toyID"] = 187900
 	},
 	[2222] = {
-		["toyName"] = "Scouting Map: Into the Shadowlands]",
+		["toyName"] = "Scouting Map: Into the Shadowlands",
 		["toyID"] = 187869
 	}
 }
@@ -99,16 +99,15 @@ end
 function ns:ShowScoutingMapButton()
 	local player_faction = UnitFactionGroup("player")
 	if player_faction == "Neutral" then
-		print("Neutral faction, breaking.")
 		return
 	end
 
-	local _,_,instanceID = MFPGlobal.hbd:GetPlayerWorldPosition()
+	local _,_,instanceID = ns:GetInstanceID()
 	
 	if ns.ButtonFrames[instanceID] == nil then return end
 	
 	-- If player in E(0), Kalimdor(1), or Cata zone(646)
-	-- we show Cataclysm button as well
+	-- we show the Cataclysm button as well
 	-- button, cataclysmButton
 	local b, cb = nil, nil
 	

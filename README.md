@@ -31,3 +31,5 @@ Please email me at lypidius@gmail.com to report a bug or give feedback. Screensh
 
 ## Gallery
 ![The Shadowlands map](/images/map_shadowlands.PNG)
+![Dragonflight flight map](/images/map_dragonflight.png)
+![Dragonflight world map](/images/worldmap_dragonflight.png)
