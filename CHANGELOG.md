@@ -1,4 +1,7 @@
 # Changelog
+## v2.2.0
+* Updated for The War Within 11.0.0
+
 ## v2.0.0
 * Complete rework under the hood
 * Updated for Dragonflight 10.1.0

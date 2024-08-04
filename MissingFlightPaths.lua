@@ -14,7 +14,7 @@ local SHOW_ALL_NODES = false
 -- Create 50 frames to reuse for pins
 local emptyFramesCreated = false
 local FlightMapPinFrames = {}
-local PIN_MAX = 60
+local PIN_MAX = 100
 
 --- Event frame for opening and closing the taxi map.
 CreateFrame("Frame", "TaxiOpenEventFrame", UIParent)
@@ -47,6 +47,7 @@ function ns:PinFlightMap()
 		ViragDevTool_AddData(c, "c")
 		ViragDevTool_AddData(u, "u")
 		ViragDevTool_AddData(l, "l")
+		ViragDevTool_AddData(a, "a")
 	end
 
 	if c.textureKit ~= nil then
@@ -72,14 +73,22 @@ function ns:PinFlightMap()
 	ns:FilterBadNodes(l)
 	if DEBUG_MODE then ViragDevTool_AddData(l, "l (filtered)") end
 
+
 	-- Save filtered locked nodes to SavedVariable using HBD InstanceIDOverrides
-	MFP_LockedNodes[ns:GetInstanceID()] = l
-	if DEBUG_MODE then ViragDevTool_AddData(ns:GetInstanceID(), "saving l (filtered) to instanceID") end
-	for i=1,#(MFP_LockedNodes[ns:GetInstanceID()]) do
-		local X,Y = ns:FindXYPos(MFP_LockedNodes[ns:GetInstanceID()][i].name)
-		MFP_LockedNodes[ns:GetInstanceID()][i].absoluteX = X
-		MFP_LockedNodes[ns:GetInstanceID()][i].absoluteY = Y
-		MFP_LockedNodes[ns:GetInstanceID()][i].UiMapID = ns["mapIDs"][ns:GetInstanceID()]
+	MFP_LockedNodes[ns:GetInstanceID()] =  {}
+	for i=1,#(l) do
+		local instanceID = ns:GetInstanceID()
+		local name = l[i].name
+		local nodeID = l[i].nodeID
+		local X,Y = ns:FindXYPos(name)
+		local UiMapID = ns["mapIDs"][ns:GetInstanceID()]
+		MFP_LockedNodes[instanceID][i] = {}
+		MFP_LockedNodes[instanceID][i].name = name
+		MFP_LockedNodes[instanceID][i].nodeId = nodeID
+		MFP_LockedNodes[instanceID][i].X = X
+		MFP_LockedNodes[instanceID][i].Y = Y
+		MFP_LockedNodes[instanceID][i].UiMapID = UiMapID
+		MFP_LockedNodes[instanceID][i].instanceID = instanceID
 	end
 	
 	local nodesToPlace = nil

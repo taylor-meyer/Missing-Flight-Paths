@@ -11,8 +11,8 @@ ns["badnodes"] = {
 	-- Darnassus has been destroyed. If you are in present
 	-- time phase, these old nodes appear as locked.
 	-- TODO: Investigate a way to detect current phase.
-	26, -- Lor'danel, Darkshore
-	27, -- Rut'theran Village, Teldrassil
+	 26, -- Lor'danel, Darkshore
+	 27, -- Rut'theran Village, Teldrassil
 	339, -- Grove of the Ancients, Darkshore
 	456, -- Dolanaar, Teldrassil
 	457, -- Darnassus, Teldrassil

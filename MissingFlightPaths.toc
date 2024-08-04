@@ -1,10 +1,10 @@
-## Interface: 100100
+## Interface: 110000
 ## Title: MissingFlightPaths
 ## Notes: Shows missing flight points as green exclamation marks on both the world map & flight map.
 ## Author: Lypidius
-## Version: 2.0.0
+## Version: 2.1.0
 ## DefaultState: enabled
-## SavedVariablesPerCharacter: MFP_LockedNodes
+## SavedVariables: MFP_LockedNodes
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml

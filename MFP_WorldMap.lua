@@ -100,5 +100,5 @@ function ns:PlaceNodeOnWorldMap(node, pinIndex)
 		GameTooltip:Hide()
 	end)
 	
-	MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.absoluteX, node.absoluteY)
+	MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.X, node.Y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 end

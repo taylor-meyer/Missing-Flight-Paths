@@ -16,7 +16,7 @@ Talking to any flight master will refresh the addon's database of the flight poi
 
 A unique database is saved for each character. The flight points only appear on continent view of the world map e.g. a flight point in Durotar will not show as missing on the Durotar map, but it will show as missing on the Kalimdor map.
 
-For convience sake, two buttons have been added to the top of the taxi frame (the map that opens when you talk to a flight master) that will let you use your account bound maps to discover some of the flight points. These are named [[The Azeroth Campaign]](https://www.wowhead.com/item=150745/the-azeroth-campaign), and so on.
+For convenience sake, two buttons have been added to the top of the taxi frame (the map that opens when you talk to a flight master) that will let you use your account bound maps to discover some of the flight points. These are named [[The Azeroth Campaign]](https://www.wowhead.com/item=150745/the-azeroth-campaign), and so on.
 
 Some less important flight points will not be saved to the database. These include, the underwater Vashj'ir "flight" points, the old flight points in Teldrassil and Darkshore, and one flight point in Uldum that is not because of the N'zoth invasion, to name a few. Any flight point that requires you to speak with a bronze dragon to travel to an old phase is not saved to the database. This might change in the future however, if there is demand for it.
 
