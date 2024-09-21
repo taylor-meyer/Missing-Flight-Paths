@@ -99,6 +99,8 @@ function ns:PlaceNodeOnWorldMap(node, pinIndex)
 	pin:HookScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
-	
-	MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.X, node.Y, HBD_PINS_WORLDMAP_SHOW_WORLD)
+
+	if node.UiMapID then
+		MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.X, node.Y, HBD_PINS_WORLDMAP_SHOW_WORLD)
+	end
 end
