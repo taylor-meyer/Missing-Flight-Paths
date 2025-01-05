@@ -1,4 +1,7 @@
 # Changelog
+## v2.1.1
+* Updated for The War Within 11.0.7
+
 ## v2.1.0
 * Updated for The War Within 11.0.0
 

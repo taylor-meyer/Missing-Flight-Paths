@@ -33,3 +33,4 @@ Please email me at lypidius@gmail.com to report a bug or give feedback. Screensh
 ![The Shadowlands map](/images/map_shadowlands.PNG)
 ![Dragonflight flight map](/images/map_dragonflight.png)
 ![Dragonflight world map](/images/worldmap_dragonflight.png)
+![The War Within world map](/images/map_tww.png)

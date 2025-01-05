@@ -7,9 +7,10 @@
 -- Addon name & common namespace
 local addon, ns = ...
 
--- Debug mode to view all nodes in ViragDevTool
-local DEBUG_MODE = false -- Needs ViragDevTool installed
+-- Debug mode options
+local DEBUG_MODE = false
 local SHOW_ALL_NODES = false
+local SAVE_ALL_NODES = false;
 
 -- Create 50 frames to reuse for pins
 local emptyFramesCreated = false
@@ -43,13 +44,6 @@ function ns:PinFlightMap()
 	-- currentNode, unlockedNodes{}, lockedNodes{}, allNodes{}
 	local c, u, l, a = ns:GetNodes()
 
-	if DEBUG_MODE then
-		ViragDevTool_AddData(c, "c")
-		ViragDevTool_AddData(u, "u")
-		ViragDevTool_AddData(l, "l")
-		ViragDevTool_AddData(a, "a")
-	end
-
 	if c.textureKit ~= nil then
 		if DEBUG_MODE then
 			print("Non-nil texture kit at current node: " .. c.name)
@@ -70,16 +64,21 @@ function ns:PinFlightMap()
 	-- Removes nodes we do not want to show on the flight map,
 	-- either because they are broken or are not connected to the
 	-- normal flight network
-	ns:FilterBadNodes(l)
-	if DEBUG_MODE then ViragDevTool_AddData(l, "l (filtered)") end
-
+	local nodesToPin = nil
+	if SAVE_ALL_NODES then
+		ns:FilterBadNodes(a)
+		nodesToPin = a
+	else
+		ns:FilterBadNodes(l)
+		nodesToPin = l
+	end
 
 	-- Save filtered locked nodes to SavedVariable using HBD InstanceIDOverrides
 	MFP_LockedNodes[ns:GetInstanceID()] =  {}
-	for i=1,#(l) do
+	for i=1,#(nodesToPin) do
 		local instanceID = ns:GetInstanceID()
-		local name = l[i].name
-		local nodeID = l[i].nodeID
+		local name = nodesToPin[i].name
+		local nodeID = nodesToPin[i].nodeID
 		local X,Y = ns:FindXYPos(name)
 		local UiMapID = ns["mapIDs"][ns:GetInstanceID()]
 		MFP_LockedNodes[instanceID][i] = {}
@@ -94,15 +93,12 @@ function ns:PinFlightMap()
 	local nodesToPlace = nil
 	if SHOW_ALL_NODES == true then
 		nodesToPlace = a
-		if DEBUG_MODE then print("MFP: Showing all nodes.") end
 	else
 		nodesToPlace = l
-		if DEBUG_MODE then print("MFP: Showing locked nodes.") end
 	end
 
 	-- Show locked nodes on flight map
 	for i,v in pairs(nodesToPlace) do
-		if DEBUG_MODE then print("i: " .. i .. "       v: " .. v.name) end
 
 		local pin = FlightMapPinFrames[i]
 		pin:HookScript("OnEnter", function()
@@ -122,7 +118,14 @@ function ns:PinFlightMap()
 end
 
 function ns:GetNodes()
-	local taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	local taxiNodes = nil
+
+	if WorldMapFrame:GetMapID() == 2248 then -- Khaz'Algar & Dorn workaround
+		taxiNodes = C_TaxiMap.GetAllTaxiNodes(2274)
+	else
+		taxiNodes = C_TaxiMap.GetAllTaxiNodes(WorldMapFrame:GetMapID())
+	end
+
 	local currentNode = nil
 	local unlockedNodes = {}
 	local lockedNodes = {}

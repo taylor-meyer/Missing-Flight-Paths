@@ -25,7 +25,9 @@ ns["mapIDs"] = {
 	[1643] = 876,
 	[2222] = 1550,
 	[2444] = 1978,
-	[2454] = 2133
+	[2454] = 2133, -- Zaralek Cavern
+	[2552] = 2248, -- Khaz Algar (surface)
+	[2601] = 2274  -- Khaz Algar (underground)
 }
 
 --- Event frame that refreshes pins on the world map.
@@ -100,5 +102,9 @@ function ns:PlaceNodeOnWorldMap(node, pinIndex)
 		GameTooltip:Hide()
 	end)
 	
+	if node.UiMapID == 2248 then
+		node.UiMapID = 2274
+	end
+
 	MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.X, node.Y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 end
