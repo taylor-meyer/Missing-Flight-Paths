@@ -44,18 +44,18 @@ function ns:PinFlightMap()
 	-- currentNode, unlockedNodes{}, lockedNodes{}, allNodes{}
 	local c, u, l, a = ns:GetNodes()
 
-	if c.textureKit ~= nil then
+	if ns:IsBadNode(c) then
 		if DEBUG_MODE then
-			print("Non-nil texture kit at current node: " .. c.name)
-			print("textureKit is: " .. c.textureKit)
+			print("Current node found as bad node: " .. c.name)
 			print("MFP not placing pins to FlightMap.")
 		end
 		return
 	end
 
-	if ns:IsBadNode(c) then
+	if c.textureKit ~= nil then
 		if DEBUG_MODE then
-			print("Current node found as bad node: " .. c.name)
+			print("Non-nil texture kit at current node: " .. c.name)
+			print("textureKit is: " .. c.textureKit)
 			print("MFP not placing pins to FlightMap.")
 		end
 		return
