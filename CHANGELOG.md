@@ -1,4 +1,7 @@
 # Changelog
+## v2.1.2
+* Fix bug in Nerub-ar Palace
+
 ## v2.1.1
 * Updated for The War Within 11.0.7
 
