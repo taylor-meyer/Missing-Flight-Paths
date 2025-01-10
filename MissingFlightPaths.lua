@@ -44,9 +44,11 @@ function ns:PinFlightMap()
 	-- currentNode, unlockedNodes{}, lockedNodes{}, allNodes{}
 	local c, u, l, a = ns:GetNodes()
 
-	if ns:IsBadNode(c) then
+	if ns:IsBadNode(c) or not c then
 		if DEBUG_MODE then
-			print("Current node found as bad node: " .. c.name)
+			if c then
+				print("Current node found as bad node: " .. c.name)
+			end
 			print("MFP not placing pins to FlightMap.")
 		end
 		return
