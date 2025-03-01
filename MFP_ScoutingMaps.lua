@@ -3,6 +3,7 @@
 --------------------
 -- Author: Lypidius @ US-MoonGuard
 ------------------------------------------------------------------------------------------
+--- This file is now OBE. Needs rework after introduction of Warbands.
 
 -- Addon name & common namespace
 local addon, ns = ...

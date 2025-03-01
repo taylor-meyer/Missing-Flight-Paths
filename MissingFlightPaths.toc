@@ -1,8 +1,8 @@
-## Interface: 110007
+## Interface: 110100
 ## Title: MissingFlightPaths
 ## Notes: Shows missing flight points as green exclamation marks on both the world map & flight map.
 ## Author: Lypidius
-## Version: 2.1.0
+## Version: 2.1.3
 ## DefaultState: enabled
 ## SavedVariables: MFP_LockedNodes
 
@@ -13,6 +13,5 @@ libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
 MFP_NodeData.lua
 MFP_Helpers.lua
-MFP_ScoutingMaps.lua
 MFP_WorldMap.lua
 MissingFlightPaths.lua

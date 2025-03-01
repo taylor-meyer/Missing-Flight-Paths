@@ -8,7 +8,7 @@
 local addon, ns = ...
 
 -- Debug mode options
-local DEBUG_MODE = false
+ns.DEBUG_MODE = false
 local SHOW_ALL_NODES = false
 local SAVE_ALL_NODES = false;
 
@@ -26,26 +26,29 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	-- Open actions
 	if event == "TAXIMAP_OPENED" then
 		-- Create frames for pins if they have not yet been created
-		if not emptyFramesCreated then ns:CreateEmptyPinFrames() ns:CreateButtonFrames() end
-		if DEBUG_MODE then print("HBD:GetPlayerWorldPosition(): " .. ns:GetInstanceID()) end
+		if not emptyFramesCreated then ns:CreateEmptyPinFrames() end
 
 		ns:PinFlightMap()
-		ns:ShowScoutingMapButton()
 	end
 
 	-- Close actions
 	if event == "TAXIMAP_CLOSED" then
 		ns:HidePlacedPins()
-		ns:HideAllMaps()
 	end
 end)
 
 function ns:PinFlightMap()
 	-- currentNode, unlockedNodes{}, lockedNodes{}, allNodes{}
 	local c, u, l, a = ns:GetNodes()
+	if ns.DEBUG_MODE == true then DevTool:AddData(c, "PinFlightMap:c") end
 
-	if ns:IsBadNode(c) or not c then
-		if DEBUG_MODE then
+	-- Weird behavior here. ns:GetNodes() sometimes takes too long and 
+	-- IsBadNode check is passed nil c. In testing, having this check to prevent
+	-- a Lua error seems to give it enough time
+	if c == nil then return end
+
+	if ns:IsBadNode(c) then
+		if ns.DEBUG_MODE then
 			if c then
 				print("Current node found as bad node: " .. c.name)
 			end
@@ -55,7 +58,7 @@ function ns:PinFlightMap()
 	end
 
 	if c.textureKit ~= nil then
-		if DEBUG_MODE then
+		if ns.DEBUG_MODE then
 			print("Non-nil texture kit at current node: " .. c.name)
 			print("textureKit is: " .. c.textureKit)
 			print("MFP not placing pins to FlightMap.")

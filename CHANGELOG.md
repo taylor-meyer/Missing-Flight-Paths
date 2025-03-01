@@ -1,4 +1,9 @@
 # Changelog
+## v2.1.3
+* Updated for The War Within 11.1.0
+* Add map compatibility with Undermine
+* Remove calls to scouting map functions
+
 ## v2.1.2
 * Fix bug in Nerub-ar Palace
 

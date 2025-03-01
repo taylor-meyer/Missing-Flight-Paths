@@ -31,9 +31,7 @@ end
 function ns:FilterBadNodes(t)
     for i = #t, 1, -1 do
         for j=1, #ns["badnodes"] do
-            --print(i .. " " .. t[i].nodeID .. "  checking: " .. tostring(t[i].nodeID) .. "   against   k: " .. ns["badnodes"][j])
             if t[i].nodeID == ns["badnodes"][j] then
-                --print("removing: " .. tostring(t[i].nodeID))
                 table.remove(t, i)
                 break
             end
@@ -42,6 +40,7 @@ function ns:FilterBadNodes(t)
 end
 
 function ns:IsBadNode(node)
+    if ns.DEBUG_MODE == true then DevTool:AddData(node, "IsBadNode:node") end
     for _,v in pairs(ns["badnodes"]) do
         if v == node.nodeID then return true end
     end

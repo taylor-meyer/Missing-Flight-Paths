@@ -27,7 +27,8 @@ ns["mapIDs"] = {
 	[2444] = 1978,
 	[2454] = 2133, -- Zaralek Cavern
 	[2552] = 2248, -- Khaz Algar (surface)
-	[2601] = 2274  -- Khaz Algar (underground)
+	[2601] = 2274,  -- Khaz Algar (underground)
+	[2706] = 2346
 }
 
 --- Event frame that refreshes pins on the world map.
@@ -102,9 +103,19 @@ function ns:PlaceNodeOnWorldMap(node, pinIndex)
 		GameTooltip:Hide()
 	end)
 	
+	-- Khaz Algar, use combined map
 	if node.UiMapID == 2248 then
 		node.UiMapID = 2274
 	end
 
+	if ns.DEBUG_MODE == true then
+		local uiMapID = C_Map.GetBestMapForUnit("player")
+		DevTool:AddData(uiMapID, "C_Map.GetBestMapForUnit:uiMapID")
+		DevTool:AddData(pin, "pin")
+		DevTool:AddData(node.UiMapID, "node.UiMapID")
+		DevTool:AddData(node.X, "node.X")
+		DevTool:AddData(node.Y, "node.Y")
+	end
+	
 	MFPGlobal.pins:AddWorldMapIconMap(self, pin, node.UiMapID, node.X, node.Y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 end
