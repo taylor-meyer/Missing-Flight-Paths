@@ -28,7 +28,8 @@ ns["mapIDs"] = {
 	[2454] = 2133, -- Zaralek Cavern
 	[2552] = 2248, -- Khaz Algar (surface)
 	[2601] = 2274,  -- Khaz Algar (underground)
-	[2706] = 2346
+	[2706] = 2346,
+	[2738] = 2371 -- K'aresh
 }
 
 --- Event frame that refreshes pins on the world map.

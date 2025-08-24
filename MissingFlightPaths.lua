@@ -27,7 +27,8 @@ TaxiOpenEventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TAXIMAP_OPENED" then
 		-- Create frames for pins if they have not yet been created
 		if not emptyFramesCreated then ns:CreateEmptyPinFrames() end
-
+		if ns.DEBUG_MODE then print("instanceId: " .. ns.GetInstanceID()) end
+		if ns.DEBUG_MODE then print("   uiMapId: " .. C_Map.GetBestMapForUnit("player")) end
 		ns:PinFlightMap()
 	end
 

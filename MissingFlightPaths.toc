@@ -1,4 +1,4 @@
-## Interface: 110107
+## Interface: 110200
 ## Title: MissingFlightPaths
 ## Notes: Shows missing flight points as green exclamation marks on both the world map & flight map.
 ## Author: Lypidius
